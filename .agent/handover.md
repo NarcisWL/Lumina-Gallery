@@ -593,3 +593,49 @@ continuity-key: macos-floating-widget
 ### HLG
 
 本条为 macos-floating-widget 工作流追加记录。
+
+
+## 2026-07-25T13:18:00+08:00 · Dock 隐藏/菜单栏入口/分屏记忆/点击穿透/WidgetKit 清理
+
+type: feature
+scope: macos-widget/desktop-widget-mode
+status: done
+tags: [macos, dock-hide, status-bar, per-display-frame, click-through, widgetkit-removal]
+continuity: resume
+continuity-key: macos-floating-widget
+
+### Summary
+
+悬浮窗 App 完成"桌面组件形态"系列：Dock 图标隐藏（默认启用）、菜单栏常驻入口、窗口位置按显示器分档记忆、点击穿透模式（含自锁交互修复），并彻底移除遗留 WidgetKit 扩展。用户明确放弃 WidgetKit 路线（结论：静态相框形态，最快约 5 分钟换图、无动画无视频无 hover，不平替）。
+
+### Changed
+
+- `63ca2df` Dock 隐藏：设置「窗口」组「隐藏 Dock 图标」开关，默认启用（UserDefaults 无键视为 true）；`AppDelegate.applyDockVisibility` 统一入口切换 `.accessory/.regular`（回显时附带 NSApp.activate）；accessory 下窗口交互/输入框焦点实测正常。
+- `b13767a` 菜单栏入口：新增 `Services/StatusBarController.swift`（NSStatusItem，SF Symbol photo.on.rectangle），菜单：显示/隐藏悬浮窗（动态标题）、打开设置（.luviaShowSettings 通知展开面板）、退出。常驻无开关，accessory 下正常。
+- `140ce26` 分屏记忆：windowFrame 单档 → displayFrames [displayID: frame]（NSScreenNumber/CGDirectDisplayID，跨重启稳定）；保存按窗口所在屏 key；启动 + didChangeScreenParametersNotification（防抖 0.5s）按所在屏恢复；该屏无存档保持现状不乱跳；旧单档自动迁移；80×40 可见性校验保留。单屏实测通过，多屏待用户真机验证。
+- `9dc771c` 点击穿透初版 + WidgetKit 清理：`window.ignoresMouseEvents` 开关（默认关）；删除 GalleryWidgetExtension target/scheme/entitlements/源码 19 文件，工程回单 target，archive 无 PlugIns，包体 1.5M→1.3M；app group 保留（App 本体 ImageCache/TokenStore 在用）；README 重写。安装教训：ditto 覆盖旧目录残留 PlugIns 导致密封损坏，此后**先删旧 .app 目录再安装**。
+- `abb6017` 穿透自锁修复：状态机改为「穿透生效 ⟺ 开关开 ∧ 设置面板收起」；WindowController 双输入单向入口 applyClickThroughState 统一重算（os_log 迁移记录）；showSettings 为面板状态唯一权威来源。六步交互矩阵 unified log 实测全过。
+- 版本库清理：`xcuserdata/`（UserInterfaceState、xcschememanagement）移出跟踪并加 .gitignore。
+
+### Validation
+
+- 各 commit Debug/Release 构建通过，安装 /Applications 验签通过（63ca2df 起采用先删后装）。
+- 穿透状态机、菜单栏菜单、Dock 切换均经 AX/unified log 实测。
+
+### Next
+
+- 用户真机验证：穿透模式日常体验、多显示器插拔各屏恢复。
+- 可选节能优化（未做）：窗口隐藏时暂停轮播计时。
+- 可选（未做）：ImageLoader 诊断 print 迁移 os_log（macOS 26 下 print/NSLog 不进统一日志）。
+
+### Risks
+
+accessory 模式下 CGEvent 合成事件不可达 App（macOS 限制，真实鼠标不受影响），自动化测试需用 AX API 代替。
+
+### DIA
+
+已同步 handover 与 macos-widget/README.md；registry 无变更。
+
+### HLG
+
+本条为 macos-floating-widget 工作流追加记录。
