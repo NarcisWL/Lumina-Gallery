@@ -1,6 +1,6 @@
 # Handover Index
 
-> generated_at: 2026-07-26T23:08:15+08:00
+> generated_at: 2026-07-26T23:11:54+08:00
 > generated: true; do not edit manually
 > recovery_window_days: 7
 
@@ -17,6 +17,7 @@
 
 | date | format | status | continuity | scope | tags | title | source |
 | :---: | :---: | :---: | :---: | :--- | :--- | :--- | :--- |
+| 2026-07-26T23:11:54+08:00 | iso | unknown | unknown | - | - | 统一图库工具栏生产部署完成 | `.agent/handover.md` · `2026-07-26T23:11:54+08:00` · `fp:30a002093c` |
 | 2026-07-26T23:07:30+08:00 | iso | waiting | waiting | web/navigation-ui,web/navigation-domain | [webui, omnibox, navigation, search, sort, layout, responsive] | WebUI 统一浏览器式工具栏候选完成 | `.agent/handover.md` · `2026-07-26T23:07:30+08:00` · `fp:41fd133528` |
 | 2026-07-26T21:05:17+08:00 | iso | done | none | web/navigation-ui,fnos-production | [webui, navigation, header, fnos, docker, production] | WebUI 导航栏冗余收口生产发布完成 | `.agent/handover.md` · `2026-07-26T21:05:17+08:00` · `fp:e47d9f29b7` |
 | 2026-07-26T20:57:05+08:00 | iso | waiting | waiting | web/navigation-ui | [webui, navigation, header, folders, favorites, media-library] | WebUI 导航栏冗余收口候选 | `.agent/handover.md` · `2026-07-26T20:57:05+08:00` · `fp:1f441e1d1f` |

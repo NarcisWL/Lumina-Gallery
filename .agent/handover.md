@@ -866,3 +866,49 @@ continuity-key: unified-gallery-toolbar
 ### HLG
 
 已追加 `unified-gallery-toolbar` 候选记录；发现并已沉淀项目级长期决策到 project_memory，无需写入全局规则。
+
+## 2026-07-26T23:11:54+08:00 · 统一图库工具栏生产部署完成
+
+- type: deployment
+- scope: web/navigation-ui,web/navigation-domain,fnos-production
+- status: done
+- tags: navigation,toolbar,history,responsive,fnos,production
+- continuity: none
+- continuity-key: unified-gallery-toolbar
+
+### Summary
+
+统一浏览器式工具栏已完成实施、审阅、推送并部署到 FNOS 生产环境。媒体库、收藏夹与文件夹现在使用平行位置模型，地址导航、搜索、筛选、排序和视图控制统一收纳；桌面端在 1024px 及以上展示完整工具栏，移动端使用紧凑单容器布局。
+
+### Changed
+
+- 应用提交：`218d617 feat: unify gallery navigation toolbar`。
+- 生产镜像：`sha256:ee3a95777ffe95698887bef390985fa6a265a9128a74b1fec82f174dd17f6615`，revision 标签为 `218d617`。
+- 回滚镜像：`promenarleng/luvia-gallery:rollback-4c506f8`，镜像 ID 为 `sha256:8a63e9b90008122497f3176bfb98f4f57e46583435a02805e21b792c2abb1843`。
+
+### Validation
+
+- 前端测试：6 个文件、76/76 通过。
+- 本地与 FNOS 候选镜像前端构建通过；`git diff --check` 通过。
+- FNOS 候选镜像内后端测试：16/16 通过；FTS 报错为事务回滚用例的预期输出。
+- Sol 严格审阅最终结论：GO，无遗留 P0/P1/相关 P2。
+- 生产容器：running=true、restart=0、OOM=false；验收时内存约 92.2 MiB。
+- 生产首页、实际 JS、实际 CSS、manifest 均返回 HTTP 200；近 10 分钟错误关键词扫描为 none。
+- FNOS 禁止 SSH TCP 转发，因此无法自动化执行需登录真实图库数据的浏览器视觉回归；已用生产静态资源与容器运行态证据完成发布验收，真实内容交互仍建议人工观察。
+
+### Next
+
+- 无阻断后续。可在真实图库中重点观察长路径折叠、移动端更多菜单与历史位置恢复体验。
+
+### Risks
+
+- 移动端更多菜单尚未实现方向键逐项导航，属于非阻断可访问性增强项。
+- 主 JS 包仍超过 500 kB，构建存在既有分包提示；与本次导航改造无直接回归关系。
+
+### DIA
+
+- 已同步 README、release_notes、project_memory、registry、实施计划与 handover。
+
+### HLG
+
+- 已追加本次生产部署完成记录；handover-index 随后由标准脚本重建。
