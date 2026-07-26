@@ -734,3 +734,43 @@ WebUI 可恢复导航已提交远端并部署到 FNOS 生产。生产容器运�
 ### HLG
 
 已追加生产完成记录并关闭 `web-restorable-navigation` 连续工作流；未发现需要写入全局规则的新候选。
+
+
+## 2026-07-26T20:57:05+08:00 · WebUI 导航栏冗余收口候选
+
+type: fix
+scope: web/navigation-ui
+status: waiting
+tags: [webui, navigation, header, folders, favorites, media-library]
+continuity: waiting
+continuity-key: web-navigation-ui-polish
+
+### Summary
+
+按生产截图反馈收口导航组件：完整地址栏仅在文件夹视图显示；移除子目录内容标题区中重复的返回按钮与当前目录标题；媒体库和收藏夹恢复简洁标题栏。
+
+### Changed
+
+- `App.tsx` 将 `GalleryNavigationBar` 渲染条件收窄为 `viewMode === 'folders'`。
+- 删除桌面 header 中 `viewMode === 'folders' && currentPath` 的旧返回和目录标题块。
+- 保留媒体库、收藏夹和文件夹根目录的现有 `h2` 标题。
+
+### Validation
+
+本轮未获测试或部署授权，未运行测试、构建或生产验证。
+
+### Next
+
+等待用户确认是否提交、推送并部署生产。
+
+### Risks
+
+纯条件渲染调整，不涉及 History、位置快照、查询缓存或数据请求逻辑；尚未进行浏览器视觉验证。
+
+### DIA
+
+已同步 release_notes 与 handover；README、registry、API、数据库和部署文档无变化。
+
+### HLG
+
+已追加 `web-navigation-ui-polish` 候选记录；提交或部署后应以新时间戳追加结果。
