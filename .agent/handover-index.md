@@ -1,6 +1,6 @@
 # Handover Index
 
-> generated_at: 2026-07-26T20:40:58+08:00
+> generated_at: 2026-07-26T20:46:53+08:00
 > generated: true; do not edit manually
 > recovery_window_days: 7
 
@@ -11,12 +11,12 @@
 | fnos-media-stall | waiting | 2026-07-20 | done | fnos-production | FNOS 媒体浏览全局停顿优化实现 | `.agent/handover.md` · `2026-07-20T00:41:43+08:00` |
 | fnos-udp-qos | resume | 2026-07-23 | done | macos-widget/loading-network | 修正：UDP QoS 推论推翻 + 加载转圈/失败根因实为 App 实现 + 启动层级修复 | `.agent/handover.md` · `2026-07-23T21:12:00+08:00` |
 | macos-floating-widget | resume | 2026-07-25 | done | macos-widget/desktop-widget-mode | Dock 隐藏/菜单栏入口/分屏记忆/点击穿透/WidgetKit 清理 | `.agent/handover.md` · `2026-07-25T13:18:00+08:00` |
-| web-restorable-navigation | waiting | 2026-07-26 | waiting | web/navigation | WebUI 可恢复导航候选完成 | `.agent/handover.md` · `2026-07-26T20:39:39+08:00` |
 
 ## Recent 7-Day Catalog
 
 | date | format | status | continuity | scope | tags | title | source |
 | :---: | :---: | :---: | :---: | :--- | :--- | :--- | :--- |
+| 2026-07-26 | iso | done | none | web/navigation,fnos-production | [webui, navigation, fnos, docker, production, rollback] | WebUI 可恢复导航生产发布完成 | `.agent/handover.md` · `2026-07-26T20:46:53+08:00` |
 | 2026-07-26 | iso | waiting | waiting | web/navigation | [webui, navigation, history, viewport, cache, testing] | WebUI 可恢复导航候选完成 | `.agent/handover.md` · `2026-07-26T20:39:39+08:00` |
 | 2026-07-25 | iso | done | resume | macos-widget/desktop-widget-mode | [macos, dock-hide, status-bar, per-display-frame, click-through, widgetkit-removal] | Dock 隐藏/菜单栏入口/分屏记忆/点击穿透/WidgetKit 清理 | `.agent/handover.md` · `2026-07-25T13:18:00+08:00` |
 | 2026-07-23 | iso | done | resume | macos-widget/lock-settings-polish | [macos, position-lock, regression, settings-ui, grid-snap] | 悬浮窗锁定回归修复 + 设置文案/网格范围调整 | `.agent/handover.md` · `2026-07-23T22:07:00+08:00` |

@@ -687,3 +687,50 @@ accessory 模式下 CGEvent 合成事件不可达 App（macOS 限制，真实鼠
 ### HLG
 
 本条为 macos-floating-widget 工作流追加记录。
+
+
+## 2026-07-26T20:46:53+08:00 · WebUI 可恢复导航生产发布完成
+
+type: deployment
+scope: web/navigation,fnos-production
+status: done
+tags: [webui, navigation, fnos, docker, production, rollback]
+continuity: none
+continuity-key: web-restorable-navigation
+
+### Summary
+
+WebUI 可恢复导航已提交远端并部署到 FNOS 生产。生产容器运行应用 revision `7ea6fd1` 对应镜像 `sha256:e96170819c85...`，稳定旧镜像保留为 `promenarleng/luvia-gallery:rollback-8e41927`。
+
+### Changed
+
+- 功能分支提交：`69a95c9 feat: add restorable web navigation`。
+- 远端 `main` 应用提交：`7ea6fd1 feat: add restorable web navigation`。
+- 早前委派 Agent 越权产生的部分提交 `d6b96b3` 已用正常 revert `8e41927` 恢复远端与生产；最终版本通过完整树差异重新应用，未使用强推。
+- 候选镜像从 `7ea6fd1` 纯 Git 归档构建，切流前保留旧镜像回滚标签，再由 compose 强制重建单个服务。
+
+### Validation
+
+- 主控本地：Vitest 6 个文件、53/53 测试通过；Vite 生产构建通过；`git diff --check` 通过。
+- 候选 Node 20 镜像：后端 Node 原生测试 16/16 通过。
+- Sol 最终只读复审：GO，无发布阻断 findings。
+- 生产：容器 running，restart=0，OOMKilled=false；首页、实际 JS、CSS 与 manifest 均返回 HTTP 200；近 10 分钟无 error/fatal/unhandled/OOM 日志。
+- 短窗口资源：CPU 约 1.4%，内存约 89MiB/8GiB，22 PIDs。
+
+### Next
+
+无强制后续。建议用户在已有登录态下实际覆盖：父目录滚动位置恢复、A/B/C 后退前进、面包屑、媒体关闭返回、移动宽度，以及网格/时间线/瀑布流三种布局。
+
+### Risks
+
+- FNOS SSH 明确禁止 TCP 转发，内置浏览器与 Chrome 均无法通过本机隧道进入生产；因此鉴权后的真实目录交互未自动化验证，本次只确认生产页面壳层与静态资源可达。
+- 随机排序尚无服务端稳定种子；任意未加载媒体深链仍不支持；瀑布流仍存在全量 DOM 的既有性能上限。
+- 构建保留非阻断警告：主包约 600KB、`caniuse-lite` 数据过期、Vite CJS API 弃用。
+
+### DIA
+
+已同步 README、release_notes、project_memory、registry、正式实施计划、handover 与派生 handover-index；后端 API、数据库结构和部署配置无变化。
+
+### HLG
+
+已追加生产完成记录并关闭 `web-restorable-navigation` 连续工作流；未发现需要写入全局规则的新候选。
