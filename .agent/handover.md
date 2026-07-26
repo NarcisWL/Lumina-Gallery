@@ -974,3 +974,34 @@ record-fingerprint: 11f3384b80f8c5ba6be14f251f7a519866cab2b7b147e1087aaf85b4e404
 
 ### HLG
 通过用户级 HLG Skill 的 append 命令追加生产部署完成记录并自动重建索引。
+
+## 2026-07-27T00:35:28+08:00 · 统一工具栏悬浮菜单遮挡修复候选
+
+type: bugfix
+scope: ["web/navigation-ui"]
+status: waiting
+tags: ["webui", "toolbar", "stacking-context", "z-index", "overlay"]
+continuity: waiting
+continuity-key: unified-gallery-toolbar
+record-fingerprint: 55eb904b885a6e3da89c12077139887c89e341aa652df9a49eb9c4ae1e449bf8
+
+### Summary
+修复统一导航栏右侧筛选、排序、布局等悬浮菜单被下方媒体卡片遮挡并无法操作的问题。
+
+### Changed
+统一工具栏外层建立 relative z-[35] 全局层级，高于媒体卡片 z-30，低于侧栏 z-40、查看器和模态 z-50、系统层 z-60；桌面与移动导航根使用 isolate 建立局部层叠上下文，关闭遮罩为 z-10，菜单面板为 z-20。
+
+### Validation
+Spark 完成最小补丁和静态回归断言；主控根据用户截图复核遮挡现象，并扫描项目全局 z-index，否决会盖住模态框的 190/205/210 初版，收敛到 30/35/40/50/60 安全层级；受当前上级执行约束限制，本轮未运行测试、构建或真实浏览器 smoke。
+
+### Next
+取得授权后运行前端测试与生产构建；验证通过后可提交推送并部署 FNOS，再由用户在真实图库确认菜单点击。
+
+### Risks
+尚未执行运行态验证；固定层级表具有项目级复用价值，但未经用户授权未写入 project_memory 或长期规则。
+
+### DIA
+已同步 release_notes；README、registry 与现有架构说明无需修改。
+
+### HLG
+通过用户级 HLG Skill 的 append 命令追加候选记录并自动重建索引；层级表作为长期规则候选仅记录提醒，未擅自沉淀。
