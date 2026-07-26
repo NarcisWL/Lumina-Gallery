@@ -912,3 +912,34 @@ continuity-key: unified-gallery-toolbar
 ### HLG
 
 - 已追加本次生产部署完成记录；handover-index 随后由标准脚本重建。
+
+## 2026-07-26T23:23:05+08:00 · 统一工具栏瞬时激活态修复候选
+
+type: bugfix
+scope: ["web/navigation-ui"]
+status: waiting
+tags: ["webui", "toolbar", "outside-click", "focus", "escape"]
+continuity: waiting
+continuity-key: unified-gallery-toolbar
+record-fingerprint: e17672f17444f6b3b82e3409cf4ad501b409b42e43bc2123545740db2ad5fbb2
+
+### Summary
+修复统一导航栏搜索与菜单的瞬时激活态无法通过点击页面其它区域自动取消的问题。
+
+### Changed
+统一搜索、筛选、排序、布局和移动端更多菜单的关闭入口；外部 pointerdown 与 Escape 可关闭瞬时态，菜单互斥；外部点击会移除工具栏内鼠标焦点外观，快捷键搜索复用同一互斥入口；持久筛选、排序和布局值保持不变。
+
+### Validation
+Spark 完成组件与测试修改，主控静态复核外部点击、焦点清理、快捷键互斥和测试断言；受当前上级执行约束限制，本轮未运行测试、构建或页面 smoke。
+
+### Next
+如需发布，先取得测试授权并运行前端测试与构建，再提交推送和部署 FNOS。
+
+### Risks
+尚未执行自动测试；双响应式实例和真实浏览器焦点行为仍需运行态验证。
+
+### DIA
+已同步 release_notes；README、project_memory 与 registry 的现有说明仍准确，无需改写。
+
+### HLG
+通过用户级 HLG Skill 的 append 命令追加本候选记录并自动重建索引。
