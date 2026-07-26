@@ -774,3 +774,46 @@ continuity-key: web-navigation-ui-polish
 ### HLG
 
 已追加 `web-navigation-ui-polish` 候选记录；提交或部署后应以新时间戳追加结果。
+
+
+## 2026-07-26T21:05:17+08:00 · WebUI 导航栏冗余收口生产发布完成
+
+type: deployment
+scope: web/navigation-ui,fnos-production
+status: done
+tags: [webui, navigation, header, fnos, docker, production]
+continuity: none
+continuity-key: web-navigation-ui-polish
+
+### Summary
+
+导航栏冗余收口已提交远端并部署 FNOS：完整地址栏仅在文件夹视图显示，子目录不再重复展示返回按钮与当前目录标题，媒体库和收藏夹保持简洁标题栏。
+
+### Changed
+
+- 应用提交：`4c506f8 fix: remove redundant web navigation headers`。
+- 生产镜像：`sha256:8a63e9b90008...`，revision `4c506f8`。
+- 切流前生产镜像已保留为 `promenarleng/luvia-gallery:rollback-7ea6fd1`。
+
+### Validation
+
+- 前端 Vitest 6 个文件、53/53 通过。
+- Vite 生产构建通过，`git diff --check` 通过。
+- 候选 Node 20 镜像内后端测试 16/16 通过。
+- 生产容器 running，restart=0，OOMKilled=false，内存约 86MiB；首页与新 JS 资源均返回 HTTP 200；近期无错误日志。
+
+### Next
+
+无强制后续；由用户在已有登录态下确认文件夹、媒体库和收藏夹三类页面的最终视觉布局。
+
+### Risks
+
+保留既有构建警告：主包约 600KB、`caniuse-lite` 数据过期、Vite CJS API 弃用。本次为条件渲染调整，不影响 History、位置快照和查询缓存。
+
+### DIA
+
+已同步 release_notes、handover 与 handover-index；README、registry、API、数据库和部署配置无变化。
+
+### HLG
+
+已追加生产完成记录并关闭 `web-navigation-ui-polish` 工作流；无新的长期规则候选。
