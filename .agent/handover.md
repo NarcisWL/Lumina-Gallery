@@ -817,3 +817,52 @@ continuity-key: web-navigation-ui-polish
 ### HLG
 
 已追加生产完成记录并关闭 `web-navigation-ui-polish` 工作流；无新的长期规则候选。
+
+
+## 2026-07-26T23:07:30+08:00 · WebUI 统一浏览器式工具栏候选完成
+
+type: feature
+scope: web/navigation-ui,web/navigation-domain
+status: waiting
+tags: [webui, omnibox, navigation, search, sort, layout, responsive]
+continuity: waiting
+continuity-key: unified-gallery-toolbar
+
+### Summary
+
+完成统一浏览器式工具栏候选：媒体库、收藏夹和文件夹使用平行地址，地址、作用域搜索、媒体筛选、排序和布局收敛为单行固定工具栏，无上下文内容时不再保留第二行。
+
+### Changed
+
+- `GalleryLocation.view` 保持唯一空间判别；非文件夹位置在 URL、History、位置键和 History state 构造边界清除陈旧 `folderPath/path`。
+- 桌面工具栏整合历史导航、面包屑、搜索状态、筛选、排序和布局；1024px 以下使用紧凑工具栏并保留移动侧栏入口。
+- 搜索草稿与已提交状态分离：Enter 提交 push，Escape/取消不提交，已提交搜索可见且可清除。
+- 排序、筛选和布局继续使用 replace，不污染后退历史。
+- 长路径折叠中间节点并保留当前节点；`image` 筛选在桌面和移动菜单均有正确语义。
+
+### Validation
+
+- Spark 领域测试：位置模型与控制器 28/28 通过。
+- Gemini 组件施工后由 Terra 完成 App 集成与阻断修复。
+- 主控独立前端测试 6 个文件、76/76 通过；Vite 生产构建通过；`git diff --check` 通过。
+- Sol 三轮严格复审最终结论：GO，无剩余 P0/P1/P2 发布阻断。
+
+### Next
+
+- 提交功能分支并以最终树差异应用到远端 `main`。
+- 构建 Node 20 候选镜像，运行后端测试并部署 FNOS。
+- 生产切流后追加新时间戳结果记录。
+
+### Risks
+
+- 移动菜单尚未实现方向键逐项导航，基础 aria、Escape 和点击操作可用。
+- 构建保留既有主包超过 500kB、`caniuse-lite` 数据过期和 Vite CJS API 弃用警告。
+- 未在已登录真实图库中完成自动化视觉验收，生产部署后需用户最终确认布局。
+
+### DIA
+
+已同步 README、release_notes、project_memory、registry、正式实施计划与 handover；后端 API、数据库和部署配置无变化。
+
+### HLG
+
+已追加 `unified-gallery-toolbar` 候选记录；发现并已沉淀项目级长期决策到 project_memory，无需写入全局规则。
