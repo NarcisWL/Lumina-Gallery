@@ -1098,3 +1098,34 @@ record-fingerprint: 681cb1190d9bf7861bbda4e920fdedfed445c9e97f46c9ce50d43db07534
 
 ### HLG
 通过用户级 HLG Skill 的 append 命令追加生产部署完成记录并自动重建索引。
+
+## 2026-07-27T03:37:12+08:00 · 媒体查看器关闭后恢复最新浏览进度修复候选
+
+type: bugfix
+scope: ["web/navigation", "web/viewport"]
+status: waiting
+tags: ["webui", "history", "scroll-restore", "media-viewer", "regression"]
+continuity: waiting
+continuity-key: web-restorable-navigation
+record-fingerprint: 009142f303f00ee92083fe0c726e8143022f2300a52f37774e3b5f4f98c75372
+
+### Summary
+已完成本地修复候选：解决文件夹视图在任意位置打开图片或视频后，关闭查看器总是返回同一旧位置的问题。根因包含媒体 History push 前未同步固化最新视口、延迟节流样本覆盖即时快照，以及恢复命令按位置键或时间戳去重导致不同 History 条目混淆。
+
+### Changed
+新增三种图库布局的同步视口捕获接口；媒体打开前写入严格递增的即时快照；受管 History 条目使用独立恢复命令 token 与 entry identity，空快照显式回顶；旧 token 不能消费新命令；Grid、Timeline、Masonry 的恢复事务与 items 更新解耦并清理 pending 样本；Masonry 保持有界可见锚点采样并在失败时安全退化为当前 scrollTop；收紧快照损坏值校验；补充 controller、hook、viewport 与 App 导航竞态测试；release_notes.md 已增加用户可见修复说明。
+
+### Validation
+完成 Spark 初始只读定位、Terra 实施及 Sol 多轮严格只读审查；针对条目权威恢复、同 key popstate、空快照 reset、同毫秒碰撞、恢复 timer 竞态、Masonry 陈旧锚点和测试断言逐轮修正，最终独立审查结论为 GO。本轮尚未运行 Vitest、TypeScript/构建或真实浏览器回归，因此不能声明测试通过。
+
+### Next
+获得继续授权后运行导航与视口定向测试、完整前端测试和生产构建；通过后提交推送，按 FNOS 既有发布流程部署候选并验证目录深滚动、连续打开关闭图片与视频、同路径前进后退以及三种布局恢复。
+
+### Risks
+新增 token/timer 协议与测试尚未实际执行；真实浏览器下异步分页、虚拟列表实例变化及 Masonry 重排时序仍需运行态验收。当前未提交、未推送、未部署，不影响生产环境。
+
+### DIA
+用户可见导航恢复行为发生变化，已同步 release_notes.md；无数据库、API、环境变量或部署配置变更，README 与架构文档现有描述仍成立。
+
+### HLG
+已按 web-restorable-navigation continuity 追加本候选状态；发现条目级恢复命令与媒体打开前同步捕获可作为长期架构规则候选，未经用户明确授权未写入 project_memory、AGENTS.md 或其它长期规则。
