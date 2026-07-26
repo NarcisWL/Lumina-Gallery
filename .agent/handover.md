@@ -943,3 +943,34 @@ Spark 完成组件与测试修改，主控静态复核外部点击、焦点清�
 
 ### HLG
 通过用户级 HLG Skill 的 append 命令追加本候选记录并自动重建索引。
+
+## 2026-07-26T23:26:20+08:00 · 统一工具栏瞬时激活态修复生产部署完成
+
+type: deployment
+scope: ["web/navigation-ui", "fnos-production"]
+status: done
+tags: ["webui", "toolbar", "outside-click", "focus", "escape", "fnos", "production"]
+continuity: none
+continuity-key: unified-gallery-toolbar
+record-fingerprint: 11f3384b80f8c5ba6be14f251f7a519866cab2b7b147e1087aaf85b4e4046d5b
+
+### Summary
+统一工具栏瞬时激活态修复已完成测试、构建、提交推送并部署到 FNOS 生产环境。
+
+### Changed
+应用提交为 4ae9621；生产镜像为 sha256:83b0fe1f9defd27e70b2e61c748595b8dbc6d4254bbcacebafbe2164249e85be，revision 为 4ae9621；上一生产镜像保留为 promenarleng/luvia-gallery:rollback-218d617。
+
+### Validation
+前端测试 6 个文件、81/81 通过；本地和 FNOS 候选生产构建通过；git diff --check 通过；候选镜像内后端测试 16/16 通过；生产容器 running=true、restart=0、OOM=false，验收时内存约 90.1 MiB；首页、实际 JS、实际 CSS 和 manifest 均返回 HTTP 200；近 10 分钟错误关键词扫描为 none。
+
+### Next
+建议用户在真实图库页面确认搜索、筛选、排序、布局和移动端更多菜单的外部点击取消体验。
+
+### Risks
+未自动执行登录态真实图库浏览器交互；主 JS 包仍有既有的超过 500 kB 分包提示。
+
+### DIA
+已同步 release_notes 与 handover，README、project_memory 和 registry 的现有说明仍准确。
+
+### HLG
+通过用户级 HLG Skill 的 append 命令追加生产部署完成记录并自动重建索引。
