@@ -1036,3 +1036,34 @@ record-fingerprint: c2abe7aec0eaebc084b877f414243b0ad98cb73ec372e9e754d2863e568d
 
 ### HLG
 通过用户级 HLG Skill 的 append 命令追加生产部署完成记录并自动重建索引；项目层级表已按用户明确授权沉淀。
+
+## 2026-07-27T00:44:17+08:00 · 统一工具栏悬浮菜单毛玻璃背景修复候选
+
+type: bugfix
+scope: ["web/navigation-ui"]
+status: waiting
+tags: ["webui", "toolbar", "glass", "backdrop-blur", "readability"]
+continuity: waiting
+continuity-key: unified-gallery-toolbar
+record-fingerprint: c10ff0adb2e5e7157d13275556efe2e57888b3faeb7893948d18817939f36f91
+
+### Summary
+修复统一导航栏悬浮菜单背景全透明、媒体图片透穿导致文字可读性差的问题。
+
+### Changed
+桌面筛选、排序、布局和移动端更多菜单统一从无效的 bg-surface-secondary/90 或 /95 改为主题感知的 bg-surface-secondary，并将模糊增强为 backdrop-blur-2xl；保留既有 z-20、圆角、边框、阴影和布局。
+
+### Validation
+Spark 完成四个菜单类名与回归断言修改；主控核对 Tailwind 配置及 CSS 变量，确认 surface-secondary 自身已是 rgba(...,0.85)，斜杠透明度修饰与直接 var 颜色定义不兼容；静态复核四个入口均使用有效背景与增强模糊，层级未变。受当前上级执行约束限制，本轮未运行测试、构建或真实浏览器 smoke。
+
+### Next
+取得授权后运行前端测试与生产构建；验证通过后可提交推送并部署 FNOS，再由用户确认实际毛玻璃可读性。
+
+### Risks
+尚未执行运行态视觉验证；不同浏览器对 backdrop-filter 的性能和渲染存在差异，但有效半透明底色可在模糊不可用时提供可读性兜底。
+
+### DIA
+已同步 release_notes；README、project_memory 与 registry 无需修改。
+
+### HLG
+通过用户级 HLG Skill 的 append 命令追加候选记录并自动重建索引。
