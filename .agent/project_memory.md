@@ -1,4 +1,5 @@
 ## Core Technical Decisions
+- **WebUI 可恢复导航三层边界**（2026-07-26）：浏览器 History 是目录、视图、搜索、排序和媒体查看器的唯一历史事实源；`ViewportSnapshot` 仅保存会话级项目锚点、项目内偏移和已加载偏移；TanStack Query 按用户与服务端请求字段隔离媒体缓存。普通滚动捕获不得发布恢复命令，旧请求写入必须同时通过导航世代、位置键、请求所有权和取消信号校验。
 - **超大媒体库后台 I/O**（2026-07-20）：缓存统计与媒体扫描必须使用 `opendir` 流式遍历、有界 `stat` 并发和批次级事件循环让出；两个全库任务由同一协调器互斥，禁止在 Node 主事件循环中使用递归 `readdirSync`/`statSync`。
 - **扫描清理安全门禁**（2026-07-20）：目录读取、文件状态、增量查询或批量写入任一失败时，本轮扫描标记为不完整并禁止清理。数据库对账使用完整扫描路径集合与 `rowid` 游标批次；FTS、文件表和收藏删除必须处于同一事务并向上返回失败。
 - **Unified Data Loading**: Managed via a single `useEffect` in `App.tsx` observing `activeTab` and `currentPath`. Eliminates duplicate fetch and stale views.

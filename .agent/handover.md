@@ -595,6 +595,54 @@ continuity-key: macos-floating-widget
 本条为 macos-floating-widget 工作流追加记录。
 
 
+## 2026-07-26T20:39:39+08:00 · WebUI 可恢复导航候选完成
+
+type: feature
+scope: web/navigation
+status: waiting
+tags: [webui, navigation, history, viewport, cache, testing]
+continuity: waiting
+continuity-key: web-restorable-navigation
+
+### Summary
+
+完成 WebUI 浏览器式导航升级候选：统一目录、收藏夹、搜索、排序和媒体查看器的 History 状态，支持后退、前进、上一级、面包屑和回到顶部；网格、时间线与瀑布流均可按项目锚点恢复离开前位置。
+
+### Changed
+
+- 新增导航领域模型、History 控制器、会话快照存储与 `useGalleryNavigation`。
+- 引入 TanStack Query，按服务端查询字段隔离缓存；旧请求写入受导航世代、位置键、请求所有权与取消信号约束。
+- 重构 `VirtualGallery` 为三种布局视口适配器，普通滚动捕获与一次性恢复命令分离。
+- 新增桌面和移动宽度导航栏、面包屑及前进后退状态。
+- 建立 Vitest、Testing Library 与 jsdom 前端测试体系。
+
+### Validation
+
+- 委派实现阶段报告：前端测试 53/53 通过，Vite 生产构建通过。
+- Sol 最终只读复审结论：GO，无发布阻断 findings。
+- 主控独立回归、Git 推送与 FNOS 生产验证尚待执行。
+
+### Next
+
+- 主控运行完整前后端测试、生产构建和差异检查。
+- 提交并推送远端 `main`，构建可回滚生产镜像后部署 FNOS。
+- 以新的时间戳追加生产验证结果，不回写本条记录。
+
+### Risks
+
+- 随机排序尚无服务端稳定种子，缓存失效后顺序可能变化。
+- 任意未加载媒体 ID 深链仍不支持定向加载。
+- 瀑布流仍挂载全部已加载项目，数千项场景可能存在既有 DOM 性能上限。
+
+### DIA
+
+已同步 README、release_notes、project_memory、registry、正式实施计划与 handover；后端 API、数据库结构和部署配置无变化。
+
+### HLG
+
+已追加 `web-restorable-navigation` 候选完成记录；待生产闭环后追加结果记录。
+
+
 ## 2026-07-25T13:18:00+08:00 · Dock 隐藏/菜单栏入口/分屏记忆/点击穿透/WidgetKit 清理
 
 type: feature
