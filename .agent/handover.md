@@ -1129,3 +1129,34 @@ record-fingerprint: 009142f303f00ee92083fe0c726e8143022f2300a52f37774e3b5f4f98c7
 
 ### HLG
 已按 web-restorable-navigation continuity 追加本候选状态；发现条目级恢复命令与媒体打开前同步捕获可作为长期架构规则候选，未经用户明确授权未写入 project_memory、AGENTS.md 或其它长期规则。
+
+## 2026-07-27T03:49:46+08:00 · 媒体浏览进度恢复修复已发布至 FNOS 生产
+
+type: release
+scope: ["web/navigation", "web/viewport", "fnos/production"]
+status: done
+tags: ["webui", "history", "scroll-restore", "media-viewer", "deployment", "fnos"]
+continuity: none
+continuity-key: web-restorable-navigation
+record-fingerprint: 8e80e28497b6ce15f6f7ad7820ff51d4a088610f3141760d55bb4ccd1b3895ec
+
+### Summary
+修复提交 ef62851 已推送至 origin/main，并部署到 FNOS 生产容器 luvia-gallery。文件夹视图现在会在打开图片或视频前同步固化最新视口，以独立 History 条目恢复命令返回真实浏览位置，避免延迟样本和同路径条目混淆导致总回到固定旧位置。
+
+### Changed
+生产使用隔离归档目录 /vol2/1000/APPDATA/Lumina/.deploy/ef62851 构建候选镜像 promenarleng/luvia-gallery:candidate-ef62851；候选镜像提升为 latest 并通过 Compose 强制重建服务。原生产镜像已保留为 promenarleng/luvia-gallery:rollback-6386caa，未触碰存在未知未提交改动的共享构建工作树。
+
+### Validation
+定向前端回归 48/48 通过，完整前端测试 95/95 通过；Node 20 builder 容器内后端测试 16/16 通过；本机及 FNOS Docker 生产构建成功；候选镜像通过 Node 20、runner/server 语法、better-sqlite3 内存数据库和前端产物检查。生产镜像为 sha256:ee445389465897110f619df91465de43deccbd304b79feede4a511ea8ec36335，容器 running、restart_count=0、OOM=false、内存约 124MiB，近两分钟无错误日志；FNOS 本机与 Tailscale 100.72.176.103:9980 首页及 assets/index-gw42RPzl.js 均返回 HTTP 200。全仓 tsc --noEmit 仍被既有 utils/animation.ts 中 JSX 使用 .ts 扩展名的解析错误阻断，Vite 生产构建和相关测试不受影响。
+
+### Next
+建议用户在已登录生产 WebUI 中分别用网格、时间线和瀑布流深度滚动后连续打开/关闭图片与视频，确认主观交互；若浏览器仍加载旧 Service Worker 资源，执行一次强制刷新。
+
+### Risks
+自动测试已覆盖同步捕获、同路径多 History 条目、空快照 reset、恢复 timer 竞态及媒体关闭回退，但本次发布过程未代替用户登录态下的大媒体库人工长时间浏览。共享构建仓库原有 1 项未知未提交变更保持原样，发布未使用也未覆盖该工作树。
+
+### DIA
+用户可见导航恢复行为已同步 release_notes.md；无数据库、API、环境变量、Compose 或存储结构变更。
+
+### HLG
+已记录测试、构建、提交、推送、隔离部署、生产验收和回滚指针。本工作流当前无已知阻塞后续；条目级恢复命令与媒体打开前同步捕获仍是长期架构规则候选，未经用户明确授权未写入 project_memory、AGENTS.md 或其它长期规则。
