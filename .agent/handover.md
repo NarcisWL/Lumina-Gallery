@@ -1067,3 +1067,34 @@ Spark 完成四个菜单类名与回归断言修改；主控核对 Tailwind 配�
 
 ### HLG
 通过用户级 HLG Skill 的 append 命令追加候选记录并自动重建索引。
+
+## 2026-07-27T00:46:19+08:00 · 统一工具栏悬浮菜单毛玻璃背景修复生产部署完成
+
+type: deployment
+scope: ["web/navigation-ui", "fnos-production"]
+status: done
+tags: ["webui", "toolbar", "glass", "backdrop-blur", "readability", "fnos", "production"]
+continuity: none
+continuity-key: unified-gallery-toolbar
+record-fingerprint: 681cb1190d9bf7861bbda4e920fdedfed445c9e97f46c9ce50d43db07534ee31
+
+### Summary
+统一工具栏悬浮菜单毛玻璃背景修复已完成测试、构建、提交推送并部署到 FNOS 生产环境。
+
+### Changed
+应用提交为 6386caa；生产镜像为 sha256:134a79a9d6614467f434249adbd84b59488b2f8fefeab10986e9fffc08c52ead，revision 为 6386caa；上一生产镜像保留为 promenarleng/luvia-gallery:rollback-7b09b3e。
+
+### Validation
+前端测试 6 个文件、82/82 通过；本地和 FNOS 候选生产构建通过；git diff --check 通过；候选镜像内后端测试 16/16 通过；生产容器 running=true、restart=0、OOM=false，验收时内存约 91.76 MiB；首页、实际 JS、实际 CSS 和 manifest 均返回 HTTP 200；近 10 分钟错误关键词扫描为 none。
+
+### Next
+建议用户在真实图库中确认四类菜单的半透明底色、毛玻璃模糊和文字可读性。
+
+### Risks
+未自动执行登录态真实图库浏览器视觉交互；主 JS 包仍有既有的超过 500 kB 分包提示。
+
+### DIA
+已同步 release_notes 与 handover；README、project_memory 和 registry 现有内容仍准确。
+
+### HLG
+通过用户级 HLG Skill 的 append 命令追加生产部署完成记录并自动重建索引。
