@@ -1,6 +1,6 @@
 # Handover Index
 
-> generated_at: 2026-07-27T00:35:28+08:00
+> generated_at: 2026-07-27T00:38:54+08:00
 > generated: true; do not edit manually
 > recovery_window_days: 7
 
@@ -11,12 +11,12 @@
 | fnos-media-stall | waiting | 2026-07-20T00:41:43+08:00 | done | fnos-production | FNOS 媒体浏览全局停顿优化实现 | `.agent/handover.md` · `2026-07-20T00:41:43+08:00` · `fp:7c3e90785f` |
 | fnos-udp-qos | resume | 2026-07-23T21:12:00+08:00 | done | macos-widget/loading-network | 修正：UDP QoS 推论推翻 + 加载转圈/失败根因实为 App 实现 + 启动层级修复 | `.agent/handover.md` · `2026-07-23T21:12:00+08:00` · `fp:130fa8d362` |
 | macos-floating-widget | resume | 2026-07-25T13:18:00+08:00 | done | macos-widget/desktop-widget-mode | Dock 隐藏/菜单栏入口/分屏记忆/点击穿透/WidgetKit 清理 | `.agent/handover.md` · `2026-07-25T13:18:00+08:00` · `fp:3e60e6d4d0` |
-| unified-gallery-toolbar | waiting | 2026-07-27T00:35:28+08:00 | waiting | ["web/navigation-ui"] | 统一工具栏悬浮菜单遮挡修复候选 | `.agent/handover.md` · `2026-07-27T00:35:28+08:00` · `fp:55eb904b88` |
 
 ## Recent 7-Day Catalog
 
 | date | format | status | continuity | scope | tags | title | source |
 | :---: | :---: | :---: | :---: | :--- | :--- | :--- | :--- |
+| 2026-07-27T00:38:54+08:00 | iso | done | none | ["web/navigation-ui", "fnos-production"] | ["webui", "toolbar", "stacking-context", "z-index", "overlay", "fnos", "production"] | 统一工具栏悬浮菜单遮挡修复生产部署完成 | `.agent/handover.md` · `2026-07-27T00:38:54+08:00` · `fp:c2abe7aec0` |
 | 2026-07-27T00:35:28+08:00 | iso | waiting | waiting | ["web/navigation-ui"] | ["webui", "toolbar", "stacking-context", "z-index", "overlay"] | 统一工具栏悬浮菜单遮挡修复候选 | `.agent/handover.md` · `2026-07-27T00:35:28+08:00` · `fp:55eb904b88` |
 | 2026-07-26T23:26:20+08:00 | iso | done | none | ["web/navigation-ui", "fnos-production"] | ["webui", "toolbar", "outside-click", "focus", "escape", "fnos", "production"] | 统一工具栏瞬时激活态修复生产部署完成 | `.agent/handover.md` · `2026-07-26T23:26:20+08:00` · `fp:11f3384b80` |
 | 2026-07-26T23:23:05+08:00 | iso | waiting | waiting | ["web/navigation-ui"] | ["webui", "toolbar", "outside-click", "focus", "escape"] | 统一工具栏瞬时激活态修复候选 | `.agent/handover.md` · `2026-07-26T23:23:05+08:00` · `fp:e17672f174` |

@@ -1005,3 +1005,34 @@ Spark 完成最小补丁和静态回归断言；主控根据用户截图复核�
 
 ### HLG
 通过用户级 HLG Skill 的 append 命令追加候选记录并自动重建索引；层级表作为长期规则候选仅记录提醒，未擅自沉淀。
+
+## 2026-07-27T00:38:54+08:00 · 统一工具栏悬浮菜单遮挡修复生产部署完成
+
+type: deployment
+scope: ["web/navigation-ui", "fnos-production"]
+status: done
+tags: ["webui", "toolbar", "stacking-context", "z-index", "overlay", "fnos", "production"]
+continuity: none
+continuity-key: unified-gallery-toolbar
+record-fingerprint: c2abe7aec0eaebc084b877f414243b0ad98cb73ec372e9e754d2863e568d2bbe
+
+### Summary
+统一工具栏悬浮菜单遮挡修复已完成测试、构建、提交推送、项目层级规范沉淀并部署到 FNOS 生产环境。
+
+### Changed
+应用提交为 7b09b3e；生产镜像为 sha256:56ead4bea2a609a5dbdaec58c58cd79de90768603d95c25e3f6a7f1a06ffc9d2，revision 为 7b09b3e；上一生产镜像保留为 promenarleng/luvia-gallery:rollback-4ae9621；安全层级表已获用户授权沉淀至 .agent/project_memory.md。
+
+### Validation
+前端测试 6 个文件、82/82 通过；本地和 FNOS 候选生产构建通过；git diff --check 通过；候选镜像内后端测试 16/16 通过；生产容器 running=true、restart=0、OOM=false，验收时内存约 89.85 MiB；首页、实际 JS、实际 CSS 和 manifest 均返回 HTTP 200；近 10 分钟错误关键词扫描为 none。
+
+### Next
+建议用户在真实图库中确认筛选、排序、布局和移动端更多菜单均显示在媒体卡片上方，并确认图片查看器仍覆盖工具栏。
+
+### Risks
+未自动执行登录态真实图库浏览器视觉交互；主 JS 包仍有既有的超过 500 kB 分包提示。
+
+### DIA
+已同步 release_notes、project_memory 与 handover；README 和 registry 现有内容仍准确。
+
+### HLG
+通过用户级 HLG Skill 的 append 命令追加生产部署完成记录并自动重建索引；项目层级表已按用户明确授权沉淀。
