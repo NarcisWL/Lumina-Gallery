@@ -1191,3 +1191,34 @@ record-fingerprint: c747c6c73251fc3d9912efbd1f128eea78f7979a3fba5fe5550ac97760d3
 
 ### HLG
 已按 web-layout-preference continuity 追加候选状态。百万级时间轴能力门禁可作为长期架构规则候选，未经用户明确授权未写入 project_memory、AGENTS.md 或架构文档。
+
+## 2026-07-28T19:50:35+08:00 · 布局偏好与瀑布流间距修复已发布至 FNOS
+
+type: release
+scope: ["web/navigation", "web/layout", "web/gallery", "fnos/production"]
+status: done
+tags: ["webui", "layout-preference", "masonry", "timeline", "deployment", "fnos"]
+continuity: none
+continuity-key: web-layout-preference
+record-fingerprint: 0787db868a95295df8822726fef03de200cf67731003750aa89d2d3cba8a0777
+
+### Summary
+修复提交 f05d935 已推送至 origin/main 并部署到 FNOS 生产。网格与瀑布流偏好现在按服务器、用户和 all/favorites/folders 语义视图独立记忆，显式 URL 与 History 保持权威；当前不具备百万级能力的时间轴入口已隐藏，旧 timeline 状态统一回退标准网格；瀑布流横纵间距统一为 16px。
+
+### Changed
+新增布局偏好命名空间、旧 luvia_layout_mode 一次迁移与跨账号消费逻辑；冷启动绘制前应用偏好，主动切换语义视图时将目标 scope 布局写入新 History 条目，popstate 不读取 localStorage。导航菜单与 VirtualGallery 不再暴露 Timeline，底层 Timeline 源码保留。PhotoCard 移除额外 mb-6。生产从隔离目录 /vol2/1000/APPDATA/Lumina/.deploy/f05d935 构建 promenarleng/luvia-gallery:candidate-f05d935，并提升为 latest；上一生产镜像保留为 rollback-ef62851。
+
+### Validation
+定向前端测试 101/101 通过，完整前端测试 104/104 通过；本机和 FNOS Vite 生产构建成功，新资源为 assets/index-CkqGVeXS.js；候选镜像通过 Node 20、runner/server 语法、better-sqlite3 内存数据库和前端产物检查。生产镜像为 sha256:11c1213ad2b9933bcb548b289324aea6c0f923668ba261fec60698563b4d3fd4，容器 running、restart_count=0、OOM=false，FNOS 本机与 Tailscale 100.72.176.103:9980 首页及新资源均返回 HTTP 200，近两分钟无错误日志。
+
+### Next
+建议用户在生产 WebUI 中分别切换媒体库、收藏夹和文件夹的网格/瀑布流，刷新或重新打开后核对各自偏好；检查瀑布流卡片纵横间距；若浏览器仍加载旧 Service Worker，执行一次强制刷新。
+
+### Risks
+本次仅隐藏 Timeline 入口，未建设百万级时间轴所需的服务端年月桶、稳定时间游标和客户端窗口化。自动测试覆盖逻辑与组件协议，但发布流程未代替用户登录态下的真实跨页面冷启动主观验收。
+
+### DIA
+用户可见布局记忆、时间轴可达性和瀑布流间距已同步 release_notes.md；无数据库、API、环境变量、Compose 或存储结构变更。
+
+### HLG
+已记录实现、审查、测试、提交、隔离部署、生产验收和 rollback-ef62851 回滚指针。本工作流当前无已知阻塞后续；百万级时间轴能力门禁仍是长期架构规则候选，未经用户明确授权未写入 project_memory、AGENTS.md 或架构文档。
