@@ -1,6 +1,6 @@
 # Handover Index
 
-> generated_at: 2026-07-28T22:42:39+08:00
+> generated_at: 2026-07-28T23:06:53+08:00
 > generated: true; do not edit manually
 > recovery_window_days: 7
 
@@ -10,12 +10,14 @@
 | :--- | :---: | :---: | :---: | :--- | :--- | :--- |
 | fnos-media-stall | waiting | 2026-07-20T00:41:43+08:00 | done | fnos-production | FNOS 媒体浏览全局停顿优化实现 | `.agent/handover.md` · `2026-07-20T00:41:43+08:00` · `fp:7c3e90785f` |
 | fnos-udp-qos | resume | 2026-07-23T21:12:00+08:00 | done | macos-widget/loading-network | 修正：UDP QoS 推论推翻 + 加载转圈/失败根因实为 App 实现 + 启动层级修复 | `.agent/handover.md` · `2026-07-23T21:12:00+08:00` · `fp:130fa8d362` |
+| luvia-gallery-production-release | waiting | 2026-07-28T23:06:53+08:00 | done | ["Luvia-Gallery", "web", "backend"] | 目录搜索、封面可靠性与交互态视觉修复 | `.agent/handover.md` · `2026-07-28T23:06:53+08:00` · `fp:40795feeb9` |
 | macos-floating-widget | resume | 2026-07-25T13:18:00+08:00 | done | macos-widget/desktop-widget-mode | Dock 隐藏/菜单栏入口/分屏记忆/点击穿透/WidgetKit 清理 | `.agent/handover.md` · `2026-07-25T13:18:00+08:00` · `fp:3e60e6d4d0` |
 
 ## Recent 7-Day Catalog
 
 | date | format | status | continuity | scope | tags | title | source |
 | :---: | :---: | :---: | :---: | :--- | :--- | :--- | :--- |
+| 2026-07-28T23:06:53+08:00 | iso | done | waiting | ["Luvia-Gallery", "web", "backend"] | ["search", "folder-cover", "fts5", "visual-state"] | 目录搜索、封面可靠性与交互态视觉修复 | `.agent/handover.md` · `2026-07-28T23:06:53+08:00` · `fp:40795feeb9` |
 | 2026-07-28T22:42:39+08:00 | iso | done | none | ["Luvia-Gallery", "frontend", "backend", "fnos-production"] | ["search", "navigation", "pagination", "fts5", "path-security", "deployment"] | 搜索范围与查询安全修复已发布 FNOS 生产 | `.agent/handover.md` · `2026-07-28T22:42:39+08:00` · `fp:5d277fe8eb` |
 | 2026-07-28T22:32:49+08:00 | iso | in_progress | waiting | ["Luvia-Gallery", "frontend", "backend", "search"] | ["search", "navigation", "pagination", "fts5", "path-security"] | 搜索范围统一与残留查询故障修复待验证 | `.agent/handover.md` · `2026-07-28T22:32:49+08:00` · `fp:c85d1645ba` |
 | 2026-07-28T19:50:35+08:00 | iso | done | none | ["web/navigation", "web/layout", "web/gallery", "fnos/production"] | ["webui", "layout-preference", "masonry", "timeline", "deployment", "fnos"] | 布局偏好与瀑布流间距修复已发布至 FNOS | `.agent/handover.md` · `2026-07-28T19:50:35+08:00` · `fp:0787db868a` |

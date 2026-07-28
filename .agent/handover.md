@@ -1284,3 +1284,34 @@ Node 20 后端测试 24/24、前端测试 107/107 通过，Vite 构建成功；�
 
 ### HLG
 追加本次完成记录关闭 search-contract-production-fix continuity；保留等待记录作为审计历史。
+
+## 2026-07-28T23:06:53+08:00 · 目录搜索、封面可靠性与交互态视觉修复
+
+type: maintenance
+scope: ["Luvia-Gallery", "web", "backend"]
+status: done
+tags: ["search", "folder-cover", "fts5", "visual-state"]
+continuity: waiting
+continuity-key: luvia-gallery-production-release
+record-fingerprint: 40795feeb91cab5064c437ec049daa0cc9f07b027ef50798a9219193dc39a814
+
+### Summary
+已补齐文件夹视图的目录搜索结果，修复部分目录封面空白，并移除鼠标点击后残留的高对比白色状态边框。
+
+### Changed
+前端合并目录与递归媒体搜索结果，封面 URL 变化时复位错误状态；后端新增受权限、父路径和 100 条上限约束的 FTS 目录查询，目录封面改由数据库索引递归选择；交互状态统一为弱强调色并保留键盘 focus-visible。
+
+### Validation
+Node 20 后端测试 31/31、前端测试 110/110 通过，Vite 生产构建成功。
+
+### Next
+等待用户确认是否提交、推送并部署至 FNOS 生产环境。
+
+### Risks
+目录搜索依赖已完成扫描的文件 FTS 索引，因此没有任何已索引媒体后代的空目录不会出现在搜索结果中；尚未进行生产数据冒烟。
+
+### DIA
+已同步 release_notes.md；无数据库结构、部署配置或架构文档影响。
+
+### HLG
+通过标准 append 流程追加本记录并重建派生索引；未发现需要沉淀的长期规则。
