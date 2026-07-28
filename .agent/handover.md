@@ -1253,3 +1253,34 @@ record-fingerprint: c85d1645ba07d23595c83ec5603f8647b92b139d48c0b7610fedd89c94d1
 
 ### HLG
 通过用户级 HLG Skill 以 waiting continuity 追加本记录并重建索引。
+
+## 2026-07-28T22:42:39+08:00 · 搜索范围与查询安全修复已发布 FNOS 生产
+
+type: release
+scope: ["Luvia-Gallery", "frontend", "backend", "fnos-production"]
+status: done
+tags: ["search", "navigation", "pagination", "fts5", "path-security", "deployment"]
+continuity: none
+continuity-key: search-contract-production-fix
+record-fingerprint: 5d277fe8ebeec4e3aed014d3bb3fb47dd4b0d5b48dbb58052e6fed1c05ab174b
+
+### Summary
+搜索残留假故障、三视图搜索范围、收藏查询分页、FTS 普通文本与路径授权边界修复已验证、提交、推送并部署至 FNOS 生产。
+
+### Changed
+发布提交 16e5982；生产候选与实际镜像均为 sha256:91cdaccb720b75dd03ae68f479a6c01b4f1650ad5a1e51f64593552cd5baa8f9，前端资源 index-BdeQIC0l.js；旧镜像保留为 promenarleng/luvia-gallery:rollback-16e5982-pre。
+
+### Validation
+Node 20 后端测试 24/24、前端测试 107/107 通过，Vite 构建成功；候选旁路容器首页与资源 200；生产容器首页与资源 200，镜像摘要一致，restart=0、OOM=false、内存约 88 MiB，数据库初始化和 CUDA 检测成功。
+
+### Next
+观察实际全库、收藏夹和目录递归搜索行为；普通文件夹卡片仍显示直属媒体计数，如需递归计数应另做批量聚合方案，避免百万库 N+1。
+
+### Risks
+深 OFFSET 与随机分页仍是百万级长期性能议题；本轮未引入文件夹递归计数。
+
+### DIA
+已更新 release_notes.md 为已验证并发布状态；docs/API.md 注册但不存在，未创建替代文档。
+
+### HLG
+追加本次完成记录关闭 search-contract-production-fix continuity；保留等待记录作为审计历史。
