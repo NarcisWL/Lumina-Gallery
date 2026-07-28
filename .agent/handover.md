@@ -1160,3 +1160,34 @@ record-fingerprint: 8e80e28497b6ce15f6f7ad7820ff51d4a088610f3141760d55bb4ccd1b38
 
 ### HLG
 已记录测试、构建、提交、推送、隔离部署、生产验收和回滚指针。本工作流当前无已知阻塞后续；条目级恢复命令与媒体打开前同步捕获仍是长期架构规则候选，未经用户明确授权未写入 project_memory、AGENTS.md 或其它长期规则。
+
+## 2026-07-28T19:46:05+08:00 · 布局偏好记忆与瀑布流间距修复候选
+
+type: bugfix
+scope: ["web/navigation", "web/layout", "web/gallery"]
+status: waiting
+tags: ["webui", "layout-preference", "masonry", "timeline", "history"]
+continuity: waiting
+continuity-key: web-layout-preference
+record-fingerprint: c747c6c73251fc3d9912efbd1f128eea78f7979a3fba5fe5550ac97760d350ee
+
+### Summary
+已形成本地修复候选：解决网格/瀑布流设置重新打开后总回标准网格的问题；当前版本隐藏不具备百万级能力且存在假生效状态的时间轴入口；瀑布流横纵间距统一为 16px。
+
+### Changed
+新增按 window.location.origin、currentUser.username 与 all/favorites/folders 语义视图命名空间隔离的布局偏好模块；受管 History 与显式 URL 优先于本地偏好；旧 luvia_layout_mode 仅一次迁移合法 grid/masonry 并无条件消费，timeline 统一规范化为 grid。冷启动在绘制前应用偏好，用户主动切换语义视图时将目标 scope 偏好写入新 History 条目，popstate 不读取 localStorage。导航菜单和 VirtualGallery 不再暴露 Timeline，底层 Timeline 代码保留供未来服务端时间桶能力使用。PhotoCard 移除非网格 mb-6，间距仅由 Masonry gap-4 控制。补充偏好、跨账号迁移、scope 切换、timeline 规范化、导航栏与卡片间距测试。
+
+### Validation
+完成 Terra 写入实现、主控单次 diff 审计与 Sol 两轮严格只读审查；首轮发现 scope 切换、legacy 残留和旧 Timeline 测试问题，修正后最终审查结论为 GO。本轮按当前授权尚未运行 Vitest、构建、类型检查或浏览器交互验证，不能声明测试通过。
+
+### Next
+获得继续授权后运行布局偏好与导航定向测试、完整前端测试和生产构建；通过后再提交推送并按 FNOS 隔离候选流程部署。
+
+### Risks
+当前仅隐藏 Timeline 入口，未建设百万级时间轴所需的服务端年月桶、稳定时间游标和客户端窗口化；真实异步认证首帧、Service Worker 冷启动与三语义视图连续切换仍需运行态验证。
+
+### DIA
+用户可见布局记忆、时间轴可达性和瀑布流间距发生变化，已同步 release_notes.md；无数据库、API、环境变量或部署配置变更。
+
+### HLG
+已按 web-layout-preference continuity 追加候选状态。百万级时间轴能力门禁可作为长期架构规则候选，未经用户明确授权未写入 project_memory、AGENTS.md 或架构文档。
