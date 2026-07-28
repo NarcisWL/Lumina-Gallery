@@ -1222,3 +1222,34 @@ record-fingerprint: 0787db868a95295df8822726fef03de200cf67731003750aa89d2d3cba8a
 
 ### HLG
 已记录实现、审查、测试、提交、隔离部署、生产验收和 rollback-ef62851 回滚指针。本工作流当前无已知阻塞后续；百万级时间轴能力门禁仍是长期架构规则候选，未经用户明确授权未写入 project_memory、AGENTS.md 或架构文档。
+
+## 2026-07-28T22:32:49+08:00 · 搜索范围统一与残留查询故障修复待验证
+
+type: maintenance
+scope: ["Luvia-Gallery", "frontend", "backend", "search"]
+status: in_progress
+tags: ["search", "navigation", "pagination", "fts5", "path-security"]
+continuity: waiting
+continuity-key: search-contract-production-fix
+record-fingerprint: c85d1645ba07d23595c83ec5603f8647b92b139d48c0b7610fedd89c94d1b400
+
+### Summary
+已完成搜索状态、递归范围、收藏查询、分页边界与路径授权修复的代码写入；当前等待用户授权执行测试、构建和生产前验证。
+
+### Changed
+前端顶级视图切换清除旧 q，文件夹仅在搜索时递归并隐藏未筛选目录卡片，搜索空态提供清除入口；后端收藏夹改为直接收藏文件的统一分页查询，query/count 共用条件，限制 limit 1..500，安全处理 FTS 普通文本与路径前缀边界；新增前后端回归测试源码；同步 release_notes.md。
+
+### Validation
+按当前会话门禁未运行测试、构建、类型检查或生产部署；生产现场此前已通过清除残留 q 恢复 907825 条媒体显示，但新代码尚未验证。
+
+### Next
+取得用户明确授权后运行定向测试、完整前端测试、后端契约测试与构建；验证通过后再决定提交、推送和 FNOS 生产部署。
+
+### Risks
+新 database.js/server.js 查询重构尚未执行语法与行为验证；普通文件夹卡片仍显示直属媒体计数，本批未做递归计数以避免百万库 N+1 风险。
+
+### DIA
+已同步 release_notes.md；registry 注册的 docs/API.md 当前不存在，未创建替代文档。
+
+### HLG
+通过用户级 HLG Skill 以 waiting continuity 追加本记录并重建索引。
