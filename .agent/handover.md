@@ -1315,3 +1315,34 @@ Node 20 后端测试 31/31、前端测试 110/110 通过，Vite 生产构建成�
 
 ### HLG
 通过标准 append 流程追加本记录并重建派生索引；未发现需要沉淀的长期规则。
+
+## 2026-07-28T23:29:25+08:00 · 目录搜索与封面修复已发布至 FNOS
+
+type: release
+scope: ["Luvia-Gallery", "production", "FNOS"]
+status: done
+tags: ["deployment", "folder-search", "folder-cover", "FNOS"]
+continuity: none
+continuity-key: luvia-gallery-production-release
+record-fingerprint: 88a370df411a8eb802a1a1704e01b0efc0c28cd0f95febd2e2037da3d44fb48b
+
+### Summary
+提交 26d4cce 已推送并部署至 FNOS 生产环境。
+
+### Changed
+从提交精确归档构建 candidate-26d4cce，旁路冒烟后将原生产镜像保存为 rollback-26d4cce-pre，并通过 Compose 强制重建生产容器。
+
+### Validation
+候选镜像内后端测试 31/31；生产首页、JS、CSS 与 manifest 均 HTTP 200；实际镜像 sha256:48fb1256c53cb3a773deb5b7f3615f669678a5eec571b5f64c7371b29f88454e，revision 26d4cce，restart 0，OOM false，切换时内存约 86.9 MiB，错误扫描为空，CUDA 验证成功。
+
+### Next
+用户可在真实媒体库验证目录名称搜索、深层媒体文件夹封面和鼠标点击态视觉；若浏览器仍显示旧资源，强制刷新 Service Worker 缓存。
+
+### Risks
+目录搜索依赖现有 FTS 文件索引；无已索引媒体后代的空目录不会返回。原生产镜像已保留，可按 rollback-26d4cce-pre 回滚。
+
+### DIA
+已更新 release_notes.md 的生产发布状态。
+
+### HLG
+本记录关闭 luvia-gallery-production-release 连续工作流；无新增长期规则候选。
