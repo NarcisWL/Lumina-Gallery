@@ -1346,3 +1346,33 @@ record-fingerprint: 88a370df411a8eb802a1a1704e01b0efc0c28cd0f95febd2e2037da3d44f
 
 ### HLG
 本记录关闭 luvia-gallery-production-release 连续工作流；无新增长期规则候选。
+
+## 2026-07-29T20:23:52+08:00 · WebUI 媒体缩略图悬浮缩放开关
+
+type: feature
+scope: ["web/settings", "web/gallery"]
+status: done
+tags: ["webui", "settings", "thumbnail", "motion", "accessibility"]
+continuity: none
+record-fingerprint: 9a241ebba7945da2959856f7951d58efa65b527d735d897b9ec0f2cfb6b01e3a
+
+### Summary
+WebUI 常规设置新增媒体缩略图悬浮缩放开关，默认保持开启；关闭后图片、视频和音频媒体卡片不再因光标悬浮放大，偏好在浏览器本地持久化并即时生效。
+
+### Changed
+新增独立偏好模块与 luvia_media_hover_zoom 键；App 将设置状态透传至 VirtualGallery、Grid/Masonry viewport、PhotoCard 与 AudioCard。PhotoCard 门控 Framer Motion 卡片缩放和图片 scale-105，AudioCard 门控 scale-[1.02]；memo 比较器纳入开关。FolderCard、修复按钮、媒体信息浮层和视频悬浮预览未改。设置页增加中英文可访问 switch；浏览器验收发现并修复滑块缺少 left-0 导致关闭态视觉位置错误。
+
+### Validation
+主控复核 git diff 与 git diff --check；定向 Vitest 7/7 通过，Vite 生产构建成功。隔离静态 WebUI 中验证开关默认开启、点击后 aria-checked=false、滑块从右侧 24px 移至左侧 4px、重载后仍为关闭。完整前端测试 114/116：两个既有 app-navigation-flow 用例在重复 vi.unstubAllGlobals 后 localStorage 为 undefined，失败位于 LanguageContext 与 fileUtils，与本功能断言无关。
+
+### Next
+如后续需要生产发布，按既有 FNOS 隔离候选、回滚镜像和生产读回流程执行；本次用户未要求提交、推送或部署。
+
+### Risks
+当前 TimelineViewport 未接入 VirtualGallery 运行路由，因此未透传此开关；若未来重新启用时间轴布局，需要同步接入 mediaHoverZoomEnabled。完整前端测试仍有两个既有 localStorage 桩清理故障待单独修复。
+
+### DIA
+已同步 release_notes.md、docs/STITCH-DESIGN-GUIDE.md 与其 stitch-design 源文档；无数据库、API、服务端配置、环境变量或部署变更。
+
+### HLG
+按 append-only 标准记录本次实现、验证、已知测试故障和未来 Timeline 接入风险；未发现需要沉淀为长期规则的新候选。

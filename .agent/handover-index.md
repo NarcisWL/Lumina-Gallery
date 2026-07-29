@@ -1,6 +1,6 @@
 # Handover Index
 
-> generated_at: 2026-07-28T23:29:25+08:00
+> generated_at: 2026-07-29T20:23:52+08:00
 > generated: true; do not edit manually
 > recovery_window_days: 7
 
@@ -16,6 +16,7 @@
 
 | date | format | status | continuity | scope | tags | title | source |
 | :---: | :---: | :---: | :---: | :--- | :--- | :--- | :--- |
+| 2026-07-29T20:23:52+08:00 | iso | done | none | ["web/settings", "web/gallery"] | ["webui", "settings", "thumbnail", "motion", "accessibility"] | WebUI 媒体缩略图悬浮缩放开关 | `.agent/handover.md` · `2026-07-29T20:23:52+08:00` · `fp:9a241ebba7` |
 | 2026-07-28T23:29:25+08:00 | iso | done | none | ["Luvia-Gallery", "production", "FNOS"] | ["deployment", "folder-search", "folder-cover", "FNOS"] | 目录搜索与封面修复已发布至 FNOS | `.agent/handover.md` · `2026-07-28T23:29:25+08:00` · `fp:88a370df41` |
 | 2026-07-28T23:06:53+08:00 | iso | done | waiting | ["Luvia-Gallery", "web", "backend"] | ["search", "folder-cover", "fts5", "visual-state"] | 目录搜索、封面可靠性与交互态视觉修复 | `.agent/handover.md` · `2026-07-28T23:06:53+08:00` · `fp:40795feeb9` |
 | 2026-07-28T22:42:39+08:00 | iso | done | none | ["Luvia-Gallery", "frontend", "backend", "fnos-production"] | ["search", "navigation", "pagination", "fts5", "path-security", "deployment"] | 搜索范围与查询安全修复已发布 FNOS 生产 | `.agent/handover.md` · `2026-07-28T22:42:39+08:00` · `fp:5d277fe8eb` |
