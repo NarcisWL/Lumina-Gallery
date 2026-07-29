@@ -1439,3 +1439,66 @@ Node 20 后端测试 36/36 通过，Vite 生产构建成功；前端 114/116，�
 
 ### HLG
 通过标准 append dry-run 与 apply 追加本记录并重建派生索引，关闭 continuity-key fnos-folder-cover-stall。目录封面索引范围查询与慢请求最小化日志已记录在项目记忆，未发现需要进一步写入全局规则的新候选。
+
+## 2026-07-30T01:18:25+08:00 · macOS 每显示器位置 V2 已安装
+
+type: release
+scope: ["Luvia-Gallery", "macOS-widget", "local-install"]
+status: done
+tags: ["macOS", "display", "window-placement", "release", "installation"]
+continuity: waiting
+continuity-key: macos-per-display-placement-v2
+event-period: 2026-07-29/2026-07-30
+record-fingerprint: 22f05e274171bcb24bc9b0f2ea910b26ef78f56d924d8d87c68d292e1310d662
+
+### Summary
+已将 macOS 悬浮相册的窗口位置记忆升级为按物理显示器分档的 V2，并完成 Release 打包、签名校验、安全替换 /Applications 中的现有应用和启动读回。
+
+### Changed
+窗口位置改为目标屏 visibleFrame 内的归一化横向和顶部比例加尺寸；系统主屏按 NSScreen.screens.first 及 Resolver 最终键识别。内置屏使用 vendor/model，外接屏优先 vendor/model/serial，无 serial 时使用名称与物理尺寸；不可信或冲突身份只存进程内。删除 CG UUID 和不可靠的旧数字键迁移；屏幕重配置、延迟保存、网格吸附、隐藏与退出统一防止临时 frame 污染。新增 SwiftPM 核心测试入口、13 个回归测试和 .build 忽略规则。
+
+### Validation
+主控复跑 Swift 测试 13/13 通过，Xcode Debug BUILD SUCCEEDED，独立复审最终 Ready for packaging: Yes。Release archive 成功，arm64/x86_64 通用二进制和 Apple Development 签名校验通过；zip SHA-256 为 26cca54fb5b3f4a199a52bf17a42407f32f539ebabd7624f00e1fa9289d5d41b。新应用已从 /Applications 启动为 PID 23229，安装二进制 SHA-256 与包内一致，并写入当前 GS49UK 外接屏的 display-v2 指纹档案。
+
+### Next
+用户在同时连接内置屏和外接屏时，分别放置不同位置和尺寸，再执行外接屏与内置屏双向主屏切换及重启验收；确认后可追加关闭本 continuity 的记录。若发现异常，保留安装前 zip 与废纸篓中的旧 .app 可回滚。
+
+### Risks
+当前机器安装时只有 GS49UK 活动屏，未完成真实双屏 AppKit 通知时序验证。serial=0 的外接屏使用名称和物理尺寸作为最佳努力指纹，系统命名变化可能导致重新校准；两台完全同型号无 serial 的冲突屏只保证当前进程内分档。极低概率非法 visibleFrame 会安全拒绝恢复，但同键后续通知不主动重试。
+
+### DIA
+已同步 macos-widget/README.md、release_notes.md、.agent/project_memory.md、registry 与实施计划。
+
+### HLG
+按标准 append 流程记录实现、复审、打包、安装、回滚位置与待真实双屏验收状态；新增项目级技术决策，无需沉淀到全局规则。
+
+## 2026-07-30T01:50:08+08:00 · macOS 在线目录可视化选择器实施与安装
+
+type: implementation
+scope: ["macos-widget", "remote-folder-browser"]
+status: done
+tags: ["macos", "folder-browser", "swiftui", "release"]
+continuity: none
+event-date: 2026-07-30
+record-fingerprint: 63b2575e6d1115c7057e48025703f61c89574aa517f54fd6effa12c0b2bcac98
+
+### Summary
+已将 macOS 悬浮相册在线文件夹模式从手输路径升级为权限安全的可视化目录选择器，并重新打包、替换 /Applications 中的应用。
+
+### Changed
+新增目录请求核心、响应兼容解码、会话缓存与请求代次状态机、可观察 ViewModel 和原生 SwiftUI 选择 Sheet；设置面板改为只读路径与浏览入口。目录请求只调用 /api/library/folders，并仅通过 Authorization Bearer 发送 Token。空白 Token、虚拟根和空 folderPath 均失败关闭；旧响应、取消请求和重复导航不会污染当前状态。本地目录选择流程保持不变。
+
+### Validation
+Swift 核心测试 28/28 通过；Xcode Debug clean build 和 Release archive 成功；Release 为 arm64/x86_64 通用包且 Apple Development 签名有效。新包已安装到 /Applications/LuviaGalleryWidget.app，从该路径启动后进程正常，安装后二进制哈希与 Release 包一致。运行时已读回在线文件夹模式的只读路径和浏览入口；为避免未经单独授权再次传输已保存 Token，本轮未点击发起真实鉴权目录请求。
+
+### Next
+用户可在应用中主动点击浏览，确认生产服务器返回的授权目录层级与实际账号权限一致。
+
+### Risks
+真实生产 Token 的目录接口端到端读回未在本轮自动执行；现有 ImageLoader 和 CarouselCard 仍有本功能之外的 Swift 6 兼容警告。安装前应用已同时备份为 zip，并保留在废纸篓中的可恢复 app。
+
+### DIA
+已同步 macos-widget/README.md、release_notes.md、.agent/project_memory.md、.agent/registry.md 与实施计划。
+
+### HLG
+已通过标准 HLG append 流程追加本记录并重建派生索引；未发现需要另行沉淀至全局规则或 Skill 的候选长期规则。

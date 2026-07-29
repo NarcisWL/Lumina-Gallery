@@ -1,4 +1,6 @@
 ## Core Technical Decisions
+- **macOS 在线目录浏览边界**（2026-07-30）：在线文件夹模式统一使用 `GET /api/library/folders` 按当前用户授权范围逐层懒加载，禁止改用权限更宽的 `/api/fs/list` 或一次性预取整棵树。目录 Token 只放在 `Authorization: Bearer`，不进入目录 URL 或日志；客户端兼容 `{"folders":[...]}` 与旧边界顶层数组，并以请求代次阻止旧响应覆盖新导航。虚拟授权根不可选，未选择实际目录时禁止开始文件夹轮播。
+- **macOS 每显示器位置 V2**（2026-07-30）：悬浮窗不得用 `CGDirectDisplayID` 或 `CGDisplayCreateUUIDFromDisplayID` 作为跨重启物理身份，也不得持久化全局绝对 frame。位置以目标屏 `visibleFrame` 内的归一化横向/顶部比例与窗口尺寸保存；内置屏使用 vendor/model，外接屏优先 vendor/model/serial，无 serial 时使用名称与物理尺寸。身份不完整或当前连接指纹冲突时只使用进程内 session 档案。旧数字 ID 档案失败关闭，不自动迁移。
 - **目录封面索引范围查询**（2026-07-29）：`/api/library/folders` 不得对每个子目录复用通用递归媒体查询；目录封面必须通过 `idx_folder_path` 的“目录自身 + 带分隔符的半开后代范围”查询，并在路由中先批量取得封面再组装响应。该路径需保持同前缀兄弟隔离、尾分隔符原始键回填，以及 `last_modified DESC, id ASC` 的稳定选择语义。
 - **慢请求最小化日志**（2026-07-29）：后端对超过 1 秒的请求记录 method、`req.path`、status、duration 和 finish/close 结果，且同一请求最多记录一次；禁止将查询字符串、Authorization、Cookie 或请求正文写入慢请求日志。
 - **WebUI 可恢复导航三层边界**（2026-07-26）：浏览器 History 是目录、视图、搜索、排序和媒体查看器的唯一历史事实源；`ViewportSnapshot` 仅保存会话级项目锚点、项目内偏移和已加载偏移；TanStack Query 按用户与服务端请求字段隔离媒体缓存。普通滚动捕获不得发布恢复命令，旧请求写入必须同时通过导航世代、位置键、请求所有权和取消信号校验。
