@@ -1407,3 +1407,35 @@ record-fingerprint: 33a488df976c97427ff61d227ccc23057dbfcc84210ebd20dc8d7d9a6432
 
 ### HLG
 已使用标准 append 流程记录诊断，后续沿用 continuity-key fnos-folder-cover-stall。
+
+## 2026-07-30T00:32:04+08:00 · FNOS 目录封面阻塞修复已发布至生产
+
+type: release
+scope: ["Luvia-Gallery", "FNOS", "production"]
+status: done
+tags: ["deployment", "performance", "folder-cover", "sqlite", "observability"]
+continuity: none
+continuity-key: fnos-folder-cover-stall
+event-period: 2026-07-29/2026-07-30
+record-fingerprint: 9d5e6e6ba291d7df3fa0d231e24be66ac20b20111d5679d5948955d4c6b17f88
+
+### Summary
+已修复大目录列表逐子目录递归封面查询导致 Node.js 主事件循环冻结的问题，并将慢请求最小化日志随提交 1dd3e59 发布至 FNOS 生产。此前同一请求约阻塞 523.7 秒；生产修复后真实鉴权接口为 116ms。
+
+### Changed
+数据库新增 queryFolderCovers：按规范化目录去重，显式使用 idx_folder_path，以目录自身等值和带分隔符的半开后代范围选择最新图片或视频，并把结果回填原始路径键。目录搜索、收藏夹和普通目录三条路由均在权限收窄后一次调用该批量入口。新增超过 1000ms 的 finish/close 慢请求日志，只记录 method、req.path、status、duration 和 outcome。发布镜像同时包含 WebUI 媒体缩略图悬浮缩放开关。
+
+### Validation
+Node 20 后端测试 36/36 通过，Vite 生产构建成功；前端 114/116，两个既有失败均来自测试撤销 localStorage 桩。候选镜像 sha256:982396a4bd5d483f85f8bf5facc55da2337dee3e36d93e727ec377211917958d 使用生产数据库一致性副本和相同媒体只读挂载验证：目录接口 200、235 项、122ms，并发健康请求全部 200。生产切换后同接口 116ms，并发健康最慢 110ms；FNOS 宿主、容器 3001/3002、外部地址和真实浏览器登录页均正常，revision 为 1dd3e599221fd20058d664480475aa10b5eb02e5，restart 0、OOM false，日志无慢请求或应用错误。
+
+### Next
+按日常运维观察慢请求与事件循环日志；如未来慢存储使目录 stat/readdir 成为新瓶颈，再将目录计数和修改时间迁移到索引数据或有界异步 I/O。可另行补真实 Express 权限集成测试、动态媒体路由模板化日志及 Windows 根路径和 Unicode 专项测试。
+
+### Risks
+目录路由仍会为每个子目录同步读取基础文件系统信息，但 235 目录生产实测满足小于 1 秒门禁。完整前端测试仍有两个既有 localStorage 桩清理故障。部署前镜像已保留为 promenarleng/luvia-gallery:rollback-1dd3e59-pre，可在发现回归时恢复。
+
+### DIA
+已同步 release_notes.md、.agent/project_memory.md、.agent/registry.md、实施计划与生产发布状态；无 API 响应、数据库结构、环境变量或 compose 配置变更。
+
+### HLG
+通过标准 append dry-run 与 apply 追加本记录并重建派生索引，关闭 continuity-key fnos-folder-cover-stall。目录封面索引范围查询与慢请求最小化日志已记录在项目记忆，未发现需要进一步写入全局规则的新候选。
