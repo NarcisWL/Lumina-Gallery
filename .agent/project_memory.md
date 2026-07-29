@@ -1,4 +1,6 @@
 ## Core Technical Decisions
+- **目录封面索引范围查询**（2026-07-29）：`/api/library/folders` 不得对每个子目录复用通用递归媒体查询；目录封面必须通过 `idx_folder_path` 的“目录自身 + 带分隔符的半开后代范围”查询，并在路由中先批量取得封面再组装响应。该路径需保持同前缀兄弟隔离、尾分隔符原始键回填，以及 `last_modified DESC, id ASC` 的稳定选择语义。
+- **慢请求最小化日志**（2026-07-29）：后端对超过 1 秒的请求记录 method、`req.path`、status、duration 和 finish/close 结果，且同一请求最多记录一次；禁止将查询字符串、Authorization、Cookie 或请求正文写入慢请求日志。
 - **WebUI 可恢复导航三层边界**（2026-07-26）：浏览器 History 是目录、视图、搜索、排序和媒体查看器的唯一历史事实源；`ViewportSnapshot` 仅保存会话级项目锚点、项目内偏移和已加载偏移；TanStack Query 按用户与服务端请求字段隔离媒体缓存。普通滚动捕获不得发布恢复命令，旧请求写入必须同时通过导航世代、位置键、请求所有权和取消信号校验。
 - **WebUI 平行位置与统一工具栏**（2026-07-26）：`GalleryLocation.view` 是媒体库、收藏夹和文件夹的唯一空间判别，禁止新增并行路由状态；非 `folders` 位置在 URL、History 和 key 构造边界必须清空 `folderPath/path`。统一工具栏复用同一中央容器显示地址或作用域搜索，提交搜索使用 push，排序、筛选和布局使用 replace；1024px 以下使用 compact 结构，避免侧栏展开时压缩长路径。
 - **超大媒体库后台 I/O**（2026-07-20）：缓存统计与媒体扫描必须使用 `opendir` 流式遍历、有界 `stat` 并发和批次级事件循环让出；两个全库任务由同一协调器互斥，禁止在 Node 主事件循环中使用递归 `readdirSync`/`statSync`。
