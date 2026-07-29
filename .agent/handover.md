@@ -1376,3 +1376,34 @@ WebUI 常规设置新增媒体缩略图悬浮缩放开关，默认保持开启�
 
 ### HLG
 按 append-only 标准记录本次实现、验证、已知测试故障和未来 Timeline 接入风险；未发现需要沉淀为长期规则的新候选。
+
+## 2026-07-29T23:41:24+08:00 · FNOS 偶发断联与页面内容缺失根因诊断
+
+type: diagnostic
+scope: ["fnos-production"]
+status: done
+tags: ["performance", "event-loop", "folder-cover", "sqlite", "proxy", "production"]
+continuity: resume
+continuity-key: fnos-folder-cover-stall
+record-fingerprint: 33a488df976c97427ff61d227ccc23057dbfcc84210ebd20dc8d7d9a64325b51
+
+### Summary
+已确认本次两类症状的共同主因：GET /api/library/folders 处理包含大量直属子目录的目录时，为每个子目录同步执行一次递归封面 SQL，冻结 Node 主事件循环。2026-07-29 20:13:38 左右的生产请求触发 523.7 秒事件循环延迟，期间监督代理对 / 与 /sw.js 多次记录空闲超时。
+
+### Changed
+本轮仅进行只读生产诊断；未重启容器、未修改生产配置或业务代码。此前 WebUI 媒体悬浮缩放开关已提交并推送至 main，提交为 636e22b。
+
+### Validation
+生产容器运行约 24 小时、重启 0、OOM false；Mac 到 100.72.176.103:9980、FNOS 宿主 127.0.0.1:9980、容器监督端口 3001 和应用端口 3002 当前探测均为 200。生产 server.js、database.js、runner.js SHA-256 与本地完全一致。问题目录包含 235 个直属子目录；只读 SQL EXPLAIN 选择 idx_media_type 并使用临时 B-Tree 排序，单次递归封面查询实测 2.24 至 2.30 秒，235 次累计与 523.7 秒冻结相符。
+
+### Next
+将目录列表的 N 次同步递归封面查询改为有界批量或预计算封面方案，并为匹配查询补索引与查询计划测试；增加请求级耗时日志、轻量健康检查和前端 fetch 超时/可见错误状态。修复后在 235 子目录真实规模下验证目录接口延迟，并同步压测 /、/api/config、3001 与 3002。
+
+### Risks
+修复尚未实施，访问大目录仍可再次冻结全站约数分钟。仅增加代理超时不能消除根因，只会更快断开客户端；简单并行执行 better-sqlite3 同步查询也会继续阻塞事件循环。前端手写 fetch 缺少超时且吞掉目录请求错误，会把服务端阻塞表现为永久转圈或外壳空内容。
+
+### DIA
+本轮无业务代码、接口或生产配置变更；仅新增 HLG 诊断记录及派生索引。
+
+### HLG
+已使用标准 append 流程记录诊断，后续沿用 continuity-key fnos-folder-cover-stall。

@@ -1,6 +1,6 @@
 # Handover Index
 
-> generated_at: 2026-07-29T20:23:52+08:00
+> generated_at: 2026-07-29T23:41:24+08:00
 > generated: true; do not edit manually
 > recovery_window_days: 7
 
@@ -8,6 +8,7 @@
 
 | continuity-key | continuity | last update | status | scope | title | source |
 | :--- | :---: | :---: | :---: | :--- | :--- | :--- |
+| fnos-folder-cover-stall | resume | 2026-07-29T23:41:24+08:00 | done | ["fnos-production"] | FNOS 偶发断联与页面内容缺失根因诊断 | `.agent/handover.md` · `2026-07-29T23:41:24+08:00` · `fp:33a488df97` |
 | fnos-media-stall | waiting | 2026-07-20T00:41:43+08:00 | done | fnos-production | FNOS 媒体浏览全局停顿优化实现 | `.agent/handover.md` · `2026-07-20T00:41:43+08:00` · `fp:7c3e90785f` |
 | fnos-udp-qos | resume | 2026-07-23T21:12:00+08:00 | done | macos-widget/loading-network | 修正：UDP QoS 推论推翻 + 加载转圈/失败根因实为 App 实现 + 启动层级修复 | `.agent/handover.md` · `2026-07-23T21:12:00+08:00` · `fp:130fa8d362` |
 | macos-floating-widget | resume | 2026-07-25T13:18:00+08:00 | done | macos-widget/desktop-widget-mode | Dock 隐藏/菜单栏入口/分屏记忆/点击穿透/WidgetKit 清理 | `.agent/handover.md` · `2026-07-25T13:18:00+08:00` · `fp:3e60e6d4d0` |
@@ -16,6 +17,7 @@
 
 | date | format | status | continuity | scope | tags | title | source |
 | :---: | :---: | :---: | :---: | :--- | :--- | :--- | :--- |
+| 2026-07-29T23:41:24+08:00 | iso | done | resume | ["fnos-production"] | ["performance", "event-loop", "folder-cover", "sqlite", "proxy", "production"] | FNOS 偶发断联与页面内容缺失根因诊断 | `.agent/handover.md` · `2026-07-29T23:41:24+08:00` · `fp:33a488df97` |
 | 2026-07-29T20:23:52+08:00 | iso | done | none | ["web/settings", "web/gallery"] | ["webui", "settings", "thumbnail", "motion", "accessibility"] | WebUI 媒体缩略图悬浮缩放开关 | `.agent/handover.md` · `2026-07-29T20:23:52+08:00` · `fp:9a241ebba7` |
 | 2026-07-28T23:29:25+08:00 | iso | done | none | ["Luvia-Gallery", "production", "FNOS"] | ["deployment", "folder-search", "folder-cover", "FNOS"] | 目录搜索与封面修复已发布至 FNOS | `.agent/handover.md` · `2026-07-28T23:29:25+08:00` · `fp:88a370df41` |
 | 2026-07-28T23:06:53+08:00 | iso | done | waiting | ["Luvia-Gallery", "web", "backend"] | ["search", "folder-cover", "fts5", "visual-state"] | 目录搜索、封面可靠性与交互态视觉修复 | `.agent/handover.md` · `2026-07-28T23:06:53+08:00` · `fp:40795feeb9` |
