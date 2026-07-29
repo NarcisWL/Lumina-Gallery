@@ -8,6 +8,7 @@
 - .agent/project_memory.md — 项目记忆存档
 
 ## 按需文档
+- .agent/plans/2026-07-29-fnos-folder-cover-stall-fix.md — FNOS 目录封面查询冻结修复与生产发布计划
 - .agent/plans/2026-07-26-web-navigation-upgrade.md — WebUI 可恢复导航实施计划
 - .agent/plans/2026-07-26-unified-gallery-toolbar.md — WebUI 统一浏览器式工具栏实施计划
 - docs/STITCH-DESIGN-GUIDE.md — Google Stitch 前端设计功能指引（Kotlin 原生重写参考）
