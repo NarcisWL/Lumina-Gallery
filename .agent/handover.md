@@ -1502,3 +1502,35 @@ Swift 核心测试 28/28 通过；Xcode Debug clean build 和 Release archive �
 
 ### HLG
 已通过标准 HLG append 流程追加本记录并重建派生索引；未发现需要另行沉淀至全局规则或 Skill 的候选长期规则。
+
+## 2026-07-31T00:36:50+08:00 · macOS 应用安装后无法启动根因诊断
+
+type: diagnosis
+scope: ["macos-widget", "local-install", "release-signing"]
+status: done
+tags: ["macos", "codesign", "provisioning-profile", "launchservices", "release"]
+continuity: resume
+continuity-key: macos-release-signing
+event-date: 2026-07-31
+record-fingerprint: f7c14e00f0f15cf3272758ae9cafe9423c6db43bd5705c9a223532f66bab906d
+
+### Summary
+已确认 /Applications/LuviaGalleryWidget.app 无法启动并非业务代码崩溃，而是系统在创建进程前因签名授权策略拒绝启动。
+
+### Changed
+本轮仅诊断，未修改应用代码、打包脚本、构建产物或已安装应用。检查了应用包结构、通用架构、签名、描述文件、最低系统版本、Gatekeeper 评估和 LaunchServices 启动结果。
+
+### Validation
+应用包结构完整，主程序具备执行权限且包含 arm64/x86_64，codesign 完整性校验通过；当前 macOS 26.5.2 高于应用最低要求 26.4。open 复现 RBSRequestErrorDomain Code=5，底层 POSIX 163，launchctl 解释为 Security policy issue；直接执行被 SIGKILL，退出码 137。签名类型为 Apple Development，内嵌 LocalProvision 描述文件 TimeToLive 7 天，已于北京时间 2026-07-30 04:48:04 过期，spctl 评估 rejected。现有 package_release.sh 只复制 archive 内开发签名 app 并校验签名完整性，未执行 Developer ID 导出与公证。
+
+### Next
+若用户授权修复，将发布流程改为适合 /Applications 长期运行的 Developer ID Application 签名、Developer ID 导出与 Apple 公证并 stapler 票据；重新构建安装后验证 codesign、spctl、stapler、实际启动与跨时段有效性。
+
+### Risks
+当前安装包及同批 zip 仍依赖已过期的短期本地开发描述文件，继续重装原 zip 不能形成长期修复。若开发者账号不具备 Developer ID 证书或公证权限，需要先明确仅本机临时开发安装与正式分发两种方案。
+
+### DIA
+本轮无代码、接口、UI、配置或发布行为变更；无需同步 README、release_notes 或架构文档。
+
+### HLG
+追加本诊断记录，建立 macos-release-signing 连续工作流，等待用户授权后实施正式签名与公证修复。

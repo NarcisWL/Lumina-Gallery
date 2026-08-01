@@ -1,6 +1,6 @@
 # Handover Index
 
-> generated_at: 2026-07-30T01:50:08+08:00
+> generated_at: 2026-07-31T00:36:50+08:00
 > generated: true; do not edit manually
 > recovery_window_days: 7
 
@@ -12,11 +12,13 @@
 | fnos-udp-qos | resume | 2026-07-23T21:12:00+08:00 | done | macos-widget/loading-network | 修正：UDP QoS 推论推翻 + 加载转圈/失败根因实为 App 实现 + 启动层级修复 | `.agent/handover.md` · `2026-07-23T21:12:00+08:00` · `fp:130fa8d362` |
 | macos-floating-widget | resume | 2026-07-25T13:18:00+08:00 | done | macos-widget/desktop-widget-mode | Dock 隐藏/菜单栏入口/分屏记忆/点击穿透/WidgetKit 清理 | `.agent/handover.md` · `2026-07-25T13:18:00+08:00` · `fp:3e60e6d4d0` |
 | macos-per-display-placement-v2 | waiting | 2026-07-30T01:18:25+08:00 | done | ["Luvia-Gallery", "macOS-widget", "local-install"] | macOS 每显示器位置 V2 已安装 | `.agent/handover.md` · `2026-07-30T01:18:25+08:00` · `fp:22f05e2741` |
+| macos-release-signing | resume | 2026-07-31T00:36:50+08:00 | done | ["macos-widget", "local-install", "release-signing"] | macOS 应用安装后无法启动根因诊断 | `.agent/handover.md` · `2026-07-31T00:36:50+08:00` · `fp:f7c14e00f0` |
 
 ## Recent 7-Day Catalog
 
 | date | format | status | continuity | scope | tags | title | source |
 | :---: | :---: | :---: | :---: | :--- | :--- | :--- | :--- |
+| 2026-07-31T00:36:50+08:00 | iso | done | resume | ["macos-widget", "local-install", "release-signing"] | ["macos", "codesign", "provisioning-profile", "launchservices", "release"] | macOS 应用安装后无法启动根因诊断 | `.agent/handover.md` · `2026-07-31T00:36:50+08:00` · `fp:f7c14e00f0` |
 | 2026-07-30T01:50:08+08:00 | iso | done | none | ["macos-widget", "remote-folder-browser"] | ["macos", "folder-browser", "swiftui", "release"] | macOS 在线目录可视化选择器实施与安装 | `.agent/handover.md` · `2026-07-30T01:50:08+08:00` · `fp:63b2575e6d` |
 | 2026-07-30T01:18:25+08:00 | iso | done | waiting | ["Luvia-Gallery", "macOS-widget", "local-install"] | ["macOS", "display", "window-placement", "release", "installation"] | macOS 每显示器位置 V2 已安装 | `.agent/handover.md` · `2026-07-30T01:18:25+08:00` · `fp:22f05e2741` |
 | 2026-07-30T00:32:04+08:00 | iso | done | none | ["Luvia-Gallery", "FNOS", "production"] | ["deployment", "performance", "folder-cover", "sqlite", "observability"] | FNOS 目录封面阻塞修复已发布至生产 | `.agent/handover.md` · `2026-07-30T00:32:04+08:00` · `fp:9d5e6e6ba2` |
