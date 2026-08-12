@@ -1690,3 +1690,34 @@ UnifiedGalleryToolbar 在 md 及以上改为绝对悬浮覆盖，外层禁用指
 
 ### HLG
 通过标准 append dry-run 与 apply 追加本记录并重建 handover-index；未形成需要沉淀到全局规则或 Skill 的长期规则。
+
+## 2026-08-13T02:36:28+08:00 · 图库顶部浮岛毛玻璃视觉发布完成
+
+type: release
+scope: ["Luvia-Gallery", "WebUI", "FNOS", "Docker-Hub"]
+status: done
+tags: ["visual", "glass", "navigation", "fnos", "amd64", "production"]
+continuity: none
+event-date: 2026-08-13
+record-fingerprint: 665e165b3daa46d5a110163263e21cff31b5e4ed092756f79df6c34279ab9980
+
+### Summary
+完成图库顶部浮岛毛玻璃视觉优化的提交、推送、linux/amd64 镜像发布和 FNOS 生产部署。生产服务已运行精确修订 2c352a6a0d02f088842ebac4a8c4f6934cba1770。
+
+### Changed
+功能提交 2c352a6 已推送 main；从干净 git archive 构建 promenarleng/luvia-gallery:2c352a6-amd64，并将不可变标签与 latest 统一到 OCI digest sha256:6e317d1afd42dec40d20069944022d8c2681f8de5030b44b6471e018419c0d7f。桌面图库工具栏改为绝对悬浮，瀑布流延伸至其背后；浮岛应用 24px 模糊、半透明渐变与无透明度回退。
+
+### Validation
+Node 20 后端 54/54、前端 157/157、Vite build 与 diff check 通过；候选容器和正式服务首页、静态资源、3001、3002 与真实管理员接口通过。生产容器重启 0、OOM false，扫描和缩略图任务 idle。生产 Chrome 实测工具栏为 absolute，首张媒体与浮岛发生背景重叠，computed backdrop-filter 为 blur(24px) saturate(1.55) contrast(1.04)，控制台无 warning 或 error。
+
+### Next
+观察不同显示器与用户主题下的玻璃透射强度；如有主观偏好再微调透明度，不改动当前布局契约。
+
+### Risks
+移动端继续使用普通流布局以避免页头遮挡。既有 Vite 大于 500KB chunk 与 Browserslist 提示未在本轮处理；视觉透明度仍可能受浏览器和系统减少透明度设置影响。
+
+### DIA
+已更新 release_notes.md 的部署状态、精确提交、镜像摘要、生产与浏览器验证、备份和回滚信息；README、API、数据结构、registry 与项目记忆无新增影响。
+
+### HLG
+通过标准 append dry-run 与 apply 追加最终发布记录并重建 handover-index；此前本地视觉优化记录由本条 release 记录闭环。
