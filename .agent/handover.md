@@ -1565,3 +1565,34 @@ Node 20 全量后端 43/43、前端 121/121 通过，Vite 构建与 diff 检查�
 
 ### HLG
 使用标准 append dry-run 与 apply 追加本发布记录并重建 handover-index。
+
+## 2026-08-12T23:56:39+08:00 · 文件夹封面历史回填完成并进入稳态
+
+type: maintenance
+scope: ["Luvia-Gallery", "WebUI", "FNOS", "production"]
+status: done
+tags: ["folder-cover", "backfill", "performance", "production"]
+continuity: none
+event-date: 2026-08-12
+record-fingerprint: fed97d46ceb2fcb3fdacc95a653882d82181b1dd00602d1ed97306c430cb373c
+
+### Summary
+生产环境一次性历史文件夹封面回填已完成，文件夹视图所依赖的封面缓存进入稳态读取。
+
+### Changed
+本记录不新增应用代码；确认生产实例完成历史缩略图到文件夹封面缓存的恢复，并保留已部署的批次节流实现。
+
+### Validation
+生产日志报告共登记 271312 个有效缩略图，缓存文件夹 17215 条；回填完成后跨监控窗口未出现新增事件循环延迟告警。容器运行中，重启 0、OOM false，目标修订为 d36d66cd3075d532e31227dfa4c4f4e6cd4e70bd，内存约 51.54 MiB、CPU 约 0.17%，宿主页面返回 200。
+
+### Next
+无需人工重新扫描。后续可将 scan results 首屏约 3.3 秒的查询作为独立性能任务处理。
+
+### Risks
+本轮未进行长时间真实浏览器连续导航压测；已完成接口、容器、日志和迁移稳态检查。匿名请求受鉴权保护返回 401，未将匿名延迟作为业务接口性能证据。
+
+### DIA
+无新增产品文档影响；本记录补齐发布后的运行态治理证据。
+
+### HLG
+使用标准 append dry-run 与 apply 追加回填完成记录并重建 handover-index。

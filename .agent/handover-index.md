@@ -1,6 +1,6 @@
 # Handover Index
 
-> generated_at: 2026-08-12T23:49:28+08:00
+> generated_at: 2026-08-12T23:56:39+08:00
 > generated: true; do not edit manually
 > recovery_window_days: 7
 
@@ -18,6 +18,7 @@
 
 | date | format | status | continuity | scope | tags | title | source |
 | :---: | :---: | :---: | :---: | :--- | :--- | :--- | :--- |
+| 2026-08-12T23:56:39+08:00 | iso | done | none | ["Luvia-Gallery", "WebUI", "FNOS", "production"] | ["folder-cover", "backfill", "performance", "production"] | 文件夹封面历史回填完成并进入稳态 | `.agent/handover.md` · `2026-08-12T23:56:39+08:00` · `fp:fed97d46ce` |
 | 2026-08-12T23:49:28+08:00 | iso | done | none | ["Luvia-Gallery", "WebUI", "FNOS", "Docker-Hub"] | ["folder-cover", "polling", "performance", "fnos", "amd64", "production"] | WebUI 文件夹稳定性修复发布完成 | `.agent/handover.md` · `2026-08-12T23:49:28+08:00` · `fp:0d43adac41` |
 
 ## Undated Records
