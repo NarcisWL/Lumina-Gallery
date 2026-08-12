@@ -1752,3 +1752,34 @@ MasonryViewport 的滚动内容在 md 及以上增加 64px 透明顶部内边距
 
 ### HLG
 通过标准 append dry-run 与 apply 追加本地修正记录并重建 handover-index；没有新增长期规则候选。
+
+## 2026-08-13T03:04:36+08:00 · 瀑布流首行安全区生产发布完成
+
+type: release
+scope: ["Luvia-Gallery", "WebUI", "FNOS", "Docker-Hub"]
+status: done
+tags: ["visual", "glass", "masonry", "safe-area", "fnos", "amd64", "production"]
+continuity: none
+event-date: 2026-08-13
+record-fingerprint: 4fff4755ae6124a1bda38eda2ddeb961e30e97a060507ddae18023414d193381
+
+### Summary
+完成瀑布流首行透明安全区修正的提交、推送、linux/amd64 镜像发布和 FNOS 生产部署。生产服务运行精确修订 6cc0643736c52848b915e6892d65a55499778793。
+
+### Changed
+桌面瀑布流内部滚动内容增加 64px 透明顶部安全区，移动端保持原间距；安全区随滚动离开视口，媒体仍可经过毛玻璃背后。功能提交 6cc0643 已推送 main；Docker Hub 的 6cc0643-amd64 与 latest 统一到 OCI digest sha256:1a69d98e468bb3758e1201cee754870d98980f1d13f5a1e53fae014b7bda05d7。
+
+### Validation
+干净 Node 20/Linux amd64 环境通过后端 54/54、前端 158/158、Vite build、语法检查和 diff check。908014 条数据库副本 quick_check=ok；旁路候选首页、CSS/JS、3001、3002、管理员首批与任务状态通过。正式切换 15 秒，容器零重启、未 OOM，稳定 CPU 0.16%。生产 Chrome 顶部实测首项 96px、浮岛底部 82px，安全间距 14px且不重叠；滚动 100px 后媒体仍穿过毛玻璃，控制台无 warning/error。
+
+### Next
+观察不同桌面宽度与缩放比例下的 14px 视觉间距；若未来浮岛高度改变，同步调整该安全区契约。
+
+### Risks
+网格布局未改变；移动端继续普通流布局。既有 Vite CJS、Browserslist 数据陈旧和大于 500KB chunk 提示未在本轮处理。
+
+### DIA
+已更新 release_notes.md 的部署状态、精确提交、镜像摘要、生产切换、浏览器几何、备份和回滚证据；README、API、数据结构、registry 与项目记忆无新增影响。
+
+### HLG
+通过标准 append dry-run 与 apply 追加最终发布记录并重建 handover-index；此前本地修正记录由本条 release 记录闭环。
