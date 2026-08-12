@@ -1,6 +1,6 @@
 # Handover Index
 
-> generated_at: 2026-08-13T02:36:28+08:00
+> generated_at: 2026-08-13T02:50:37+08:00
 > generated: true; do not edit manually
 > recovery_window_days: 7
 
@@ -19,6 +19,7 @@
 
 | date | format | status | continuity | scope | tags | title | source |
 | :---: | :---: | :---: | :---: | :--- | :--- | :--- | :--- |
+| 2026-08-13T02:50:37+08:00 | iso | done | none | ["Luvia-Gallery", "WebUI", "masonry"] | ["visual", "glass", "masonry", "safe-area"] | 瀑布流首行透明安全区修正 | `.agent/handover.md` · `2026-08-13T02:50:37+08:00` · `fp:965c1f253d` |
 | 2026-08-13T02:36:28+08:00 | iso | done | none | ["Luvia-Gallery", "WebUI", "FNOS", "Docker-Hub"] | ["visual", "glass", "navigation", "fnos", "amd64", "production"] | 图库顶部浮岛毛玻璃视觉发布完成 | `.agent/handover.md` · `2026-08-13T02:36:28+08:00` · `fp:665e165b3d` |
 | 2026-08-13T02:25:03+08:00 | iso | done | none | ["Luvia-Gallery", "WebUI", "gallery-navigation"] | ["visual", "glass", "navigation", "masonry", "responsive"] | 图库顶部浮岛毛玻璃视觉优化 | `.agent/handover.md` · `2026-08-13T02:25:03+08:00` · `fp:8996440d5b` |
 | 2026-08-13T02:18:26+08:00 | iso | done | none | ["Luvia-Gallery", "WebUI", "FNOS", "Docker-Hub"] | ["performance", "large-library", "pagination", "skeleton", "fnos", "amd64", "production"] | WebUI 大媒体库优化发布完成 | `.agent/handover.md` · `2026-08-13T02:18:26+08:00` · `fp:d3fda5c86a` |

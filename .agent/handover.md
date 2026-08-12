@@ -1721,3 +1721,34 @@ Node 20 后端 54/54、前端 157/157、Vite build 与 diff check 通过；候�
 
 ### HLG
 通过标准 append dry-run 与 apply 追加最终发布记录并重建 handover-index；此前本地视觉优化记录由本条 release 记录闭环。
+
+## 2026-08-13T02:50:37+08:00 · 瀑布流首行透明安全区修正
+
+type: maintenance
+scope: ["Luvia-Gallery", "WebUI", "masonry"]
+status: done
+tags: ["visual", "glass", "masonry", "safe-area"]
+continuity: none
+event-date: 2026-08-13
+record-fingerprint: 965c1f253da08bb0a243bce7e174a75604a4f9208fb8c688a179f093992904fe
+
+### Summary
+修正桌面端毛玻璃浮岛遮挡瀑布流第一行的问题；安全区作为瀑布流内部滚动内容的一部分，不恢复纯色占位层。
+
+### Changed
+MasonryViewport 的滚动内容在 md 及以上增加 64px 透明顶部内边距，移动端保持 4px；安全区随滚动离开视口，后续媒体仍可经过浮岛背后。新增 data-testid 与样式契约测试。
+
+### Validation
+聚焦 viewport 21/21、前端全套 158/158、Vite 生产构建和 git diff check 通过。构建仅保留既有 Vite CJS、Browserslist 数据陈旧和大于 500KB chunk 提示。
+
+### Next
+用户确认后再提交、推送并部署到 FNOS；当前生产仍运行 2c352a6a0d02f088842ebac4a8c4f6934cba1770。
+
+### Risks
+64px 桌面安全区基于当前 66px 浮岛高度与外层 32px 页面内边距，提供约 14px 视觉间隔；若未来浮岛高度改变，应同步该布局契约。网格布局不在用户本次瀑布流问题范围内。
+
+### DIA
+已更新 release_notes.md，明确安全区修正为本地候选并把前端验证更新为 158/158；README、API、数据结构、registry 与项目记忆无影响。
+
+### HLG
+通过标准 append dry-run 与 apply 追加本地修正记录并重建 handover-index；没有新增长期规则候选。
