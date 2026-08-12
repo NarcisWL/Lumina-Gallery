@@ -1534,3 +1534,34 @@ record-fingerprint: f7c14e00f0f15cf3272758ae9cafe9423c6db43bd5705c9a223532f66bab
 
 ### HLG
 追加本诊断记录，建立 macos-release-signing 连续工作流，等待用户授权后实施正式签名与公证修复。
+
+## 2026-08-12T23:49:28+08:00 · WebUI 文件夹稳定性修复发布完成
+
+type: release
+scope: ["Luvia-Gallery", "WebUI", "FNOS", "Docker-Hub"]
+status: done
+tags: ["folder-cover", "polling", "performance", "fnos", "amd64", "production"]
+continuity: none
+event-date: 2026-08-12
+record-fingerprint: 0d43adac4191bee2dc623437c9e3075c20b00bf94f4ada06f0973de361a719d4
+
+### Summary
+完成文件夹视图稳定性修复的提交、Git 推送、linux/amd64 镜像发布与 FNOS 生产部署。生产状态轮询和根文件夹接口在首次历史封面回填期间保持毫秒级响应。
+
+### Changed
+提交 9308300 实现常数时间媒体统计、写时目录封面缓存、目录元数据批量查询、缺失缩略图保护、前端单飞轮询、15 秒超时和可恢复错误提示。生产首次回填监控发现 256 条批次仍产生 338 至 644ms 事件循环抖动，追加 d36d66c 将批次收紧为 32 条并在批次间节流 10ms。两个提交均已推送 main。
+
+### Validation
+Node 20 全量后端 43/43、前端 121/121 通过，Vite 构建与 diff 检查通过。生产数据库一致性备份候选完成 908014 条旧库迁移，新增表、触发器与封面列齐全。生产宿主 9980、容器 3001/3002、JS、CSS、manifest、管理员 scan status、根文件夹与 scan results 均返回 200；scan status 约 10ms、根文件夹约 17ms。容器运行中、重启 0、OOM false。
+
+### Next
+历史封面回填已从持久化游标继续，完成前继续观察 event loop 与资源占用；无需人工重新扫描。
+
+### Risks
+首次全库历史封面恢复尚未完成；scan results 首屏查询约 3.3 秒，虽不再阻塞状态与目录接口，但仍是后续可独立优化项。Docker Hub 首两次推送曾遇到 TLS handshake timeout，重试成功并已回读远端清单。
+
+### DIA
+已同步 release_notes.md；既有数据结构、实施计划、项目记忆和注册表文档已在功能提交中同步。
+
+### HLG
+使用标准 append dry-run 与 apply 追加本发布记录并重建 handover-index。
