@@ -1628,3 +1628,34 @@ record-fingerprint: e4e4629becb72749ef079dc42194ce1eed255cab92821d143e82d8bf5879
 
 ### HLG
 远端文件夹稳定性发布与回填完成记录保留为事实基线；本记录通过标准 append dry-run 与 apply 追加，并重建派生索引。
+
+## 2026-08-13T02:18:26+08:00 · WebUI 大媒体库优化发布完成
+
+type: release
+scope: ["Luvia-Gallery", "WebUI", "FNOS", "Docker-Hub"]
+status: done
+tags: ["performance", "large-library", "pagination", "skeleton", "fnos", "amd64", "production"]
+continuity: none
+event-date: 2026-08-13
+record-fingerprint: d3fda5c86a0abb69960f9e25daeec2bedfc5e214c3b204b58defc6aa14140a74
+
+### Summary
+完成近百万媒体库首包与加载体验优化的提交、推送、linux/amd64 镜像发布和 FNOS 生产部署。生产服务已运行精确修订 e15dff19b579b8f7dd6eaa6ad5d152f77460c3b9。
+
+### Changed
+功能提交 e15dff1 已推送 main；从该 SHA 的干净 git archive 构建 promenarleng/luvia-gallery:e15dff1-amd64，并将 Docker Hub 不可变标签与 latest 统一到 OCI digest sha256:9ddb900a20cb75b4ed15eb143c709d4ab5c17103611738870867dc81b0bcdc84。FNOS 切换前创建 SQLite 一致性备份与 rollback-e15dff1-pre 镜像标签，随后以 pull never、no deps、force recreate 切换 luvia-gallery 服务。
+
+### Validation
+Node 20 语法检查、后端 54/54、前端 157/157、Vite build 与 diff check 通过。908014 条生产数据库副本首次建索引耗时 40 秒，数据库从 1372475392 字节增至 2458677248 字节，7 个目标索引和 quick_check 通过；旁路容器首页、配置、清单、3001 与 3002 均为 200。正式切换耗时 58 秒；生产容器运行中、重启 0、OOM false、revision 与 amd64 架构正确。管理员态日期首批、视频首批、大小首批和根目录接口分别为 14ms、11ms、25ms、13ms，扫描和缩略图任务 idle、队列 0。生产浏览器登录页 DOM 与视觉渲染完整，控制台无 warning 或 error。
+
+### Next
+观察真实用户高速滚动和长时间浏览的 DOM、内存与深页 offset 表现；将授权路径大小写与旧管理员 JWT 撤销作为独立安全任务处理。
+
+### Risks
+瀑布流尚未窗口化，深 OFFSET、ORDER BY RANDOM、越界 totalExact、稀疏 allowedPaths 和运行期历史 path 收藏恢复仍是后续项。SQLite LIKE 大小写授权与已删除管理员旧 JWT 是既有安全 P1；本次部署未扩大公网或多租户暴露面。数据库一致性备份、迁移候选副本和回滚镜像均保留。
+
+### DIA
+已更新 release_notes.md 的发布状态、镜像摘要、生产迁移与实测证据；README、数据结构、实施计划、项目记忆和注册表已在功能提交中同步。
+
+### HLG
+通过标准 append dry-run 与 apply 追加最终发布记录，并重建 handover-index；候选 waiting 记录由本条 done 发布记录闭环。
