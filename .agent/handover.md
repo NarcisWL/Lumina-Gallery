@@ -1659,3 +1659,34 @@ Node 20 语法检查、后端 54/54、前端 157/157、Vite build 与 diff check
 
 ### HLG
 通过标准 append dry-run 与 apply 追加最终发布记录，并重建 handover-index；候选 waiting 记录由本条 done 发布记录闭环。
+
+## 2026-08-13T02:25:03+08:00 · 图库顶部浮岛毛玻璃视觉优化
+
+type: maintenance
+scope: ["Luvia-Gallery", "WebUI", "gallery-navigation"]
+status: done
+tags: ["visual", "glass", "navigation", "masonry", "responsive"]
+continuity: none
+event-date: 2026-08-13
+record-fingerprint: 8996440d5be81b82695f6c7debcfbccf10f129cfc94b5a431024273155ede37e
+
+### Summary
+完成图库顶部导航浮岛的局部视觉优化，移除桌面端占据文档流的纯色间隔，让瀑布流延伸到导航背后并产生真实毛玻璃层次。
+
+### Changed
+UnifiedGalleryToolbar 在 md 及以上改为绝对悬浮覆盖，外层禁用指针事件而紧凑和桌面浮岛恢复指针事件；移动端继续保留原有普通流布局。GalleryNavigationBar 的紧凑与桌面根节点增加 gallery-toolbar-glass 材质，使用 24px 高斯模糊、饱和度、轻对比、半透明渐变、内高光与柔和投影，并为不支持 backdrop-filter 和 prefers-reduced-transparency 提供实色回退。
+
+### Validation
+前端全套 12 个测试文件、157/157 通过；Vite 生产构建成功；git diff --check 通过。新增契约断言覆盖桌面悬浮定位、父子 pointer-events 和导航玻璃材质类。
+
+### Next
+如用户确认视觉效果，可另行授权提交、推送和生产部署；当前生产版本未改变。
+
+### Risks
+本轮未在带真实登录媒体数据的生产浏览器中应用未提交样式，最终玻璃透射强度仍以部署前或用户实机验收为准；移动端未改为悬浮，避免固定页头与紧凑导航发生遮挡。
+
+### DIA
+已在 release_notes.md 新增 v1.2.8 本地候选段落，明确尚未提交、推送或部署；README、数据结构、API、registry 和项目记忆无影响。
+
+### HLG
+通过标准 append dry-run 与 apply 追加本记录并重建 handover-index；未形成需要沉淀到全局规则或 Skill 的长期规则。
