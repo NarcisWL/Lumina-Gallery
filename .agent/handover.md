@@ -1596,3 +1596,35 @@ record-fingerprint: fed97d46ceb2fcb3fdacc95a653882d82181b1dd00602d1ed97306c430cb
 
 ### HLG
 使用标准 append dry-run 与 apply 追加回填完成记录并重建 handover-index。
+
+## 2026-08-13T02:03:17+08:00 · WebUI 大媒体库候选提交收口
+
+type: maintenance
+scope: ["Luvia-Gallery", "webui", "server", "sqlite"]
+status: waiting
+tags: ["performance", "large-library", "pagination", "skeleton", "security-review", "handover"]
+continuity: waiting
+continuity-key: webui-large-library-performance
+event-date: 2026-08-13
+record-fingerprint: e4e4629becb72749ef079dc42194ce1eed255cab92821d143e82d8bf587930eb
+
+### Summary
+近百万媒体首包查询、筛选分页、稳定几何骨架、权限作用域缓存和续页恢复优化已完成候选收口；用户已授权提交、推送和生产部署。
+
+### Changed
+后端分页使用 120 条与 limit+1，只有管理员无筛选全库读取 library_stats 精确总数，其余作用域返回 totalExact 下界；收藏热路径使用 ID-only JOIN，历史 path 收藏迁移事务化消除 canonical ID 冲突；新旧库覆盖日期、全局大小、媒体类型/目录日期、媒体类型/目录大小及收藏组合索引。前端使用稳定比例骨架、分级图片加载、权限指纹缓存隔离与当前数据集首包就绪门禁，初始加载和数据集切换窗口禁止错误续页。
+
+### Validation
+主控在 Node 20 容器中通过 database.js/server.js 语法检查、后端 54/54、前端 157/157 和 Vite 生产构建；git diff --check 与高置信度秘密扫描通过。百万行合成查询与 EXPLAIN、360 条合成媒体浏览器几何采样均通过；独立原生审阅和外部 DeepSeek 复审确认本轮新增或放大的未处理 P0/P1 为 0。
+
+### Next
+完成与 origin/main 的 HLG-aware 同步后推送功能提交；构建 linux/amd64 候选，使用生产数据库副本和只读媒体完成旁路验证，保留回滚镜像后切换 FNOS，并追加最终发布记录。
+
+### Risks
+真实生产百万库首包、高速滚动与旧库首次同步建索引仍待目标主机验证。深 OFFSET、ORDER BY RANDOM、Masonry 长滚动 DOM、越界 totalExact、稀疏 allowedPaths 与运行期历史 path 收藏恢复仍是 P2。SQLite LIKE 大小写授权与已删除管理员旧 JWT 是既有安全 P1；若发布扩大公网或多租户暴露面应作为门禁。
+
+### DIA
+已同步 README.md、release_notes.md、docs/DATA_SCHEMA.md、.agent/project_memory.md、.agent/registry.md 与实施计划；外部审阅报告保存在 .agent/tmp-agent-reports/20260813-large-library-deepseek-final.md。
+
+### HLG
+远端文件夹稳定性发布与回填完成记录保留为事实基线；本记录通过标准 append dry-run 与 apply 追加，并重建派生索引。
