@@ -8,6 +8,7 @@
 - .agent/project_memory.md — 项目记忆存档
 
 ## 按需文档
+- .agent/plans/2026-08-12-webui-folder-stability.md — WebUI 文件夹稳定性、写时封面缓存和轻量轮询修复计划
 - .agent/plans/2026-07-30-macos-remote-folder-browser.md — macOS 在线目录可视化选择器、权限和测试计划
 - .agent/plans/2026-07-30-macos-per-display-placement-v2.md — macOS 每显示器窗口位置记忆 V2、打包与安装计划
 - .agent/plans/2026-07-29-fnos-folder-cover-stall-fix.md — FNOS 目录封面查询冻结修复与生产发布计划
