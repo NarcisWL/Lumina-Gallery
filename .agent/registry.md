@@ -2,6 +2,8 @@
 
 ## 核心文档（始终同步，不可跳过）
 - README.md — 项目介绍与启动指南
+- .pdec/contract.yaml — 项目开发执行契约机器字段（当前为待审批 draft）
+- .pdec/README.md — PDEC 候选执行位置、迁移差异与批准门禁
 - release_notes.md — 版本变更记录 (现用)
 - .agent/handover.md — 跨会话交接
 - .agent/handover-index.md — HLG 派生索引（由脚本生成）

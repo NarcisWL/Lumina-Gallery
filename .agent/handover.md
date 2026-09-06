@@ -2007,3 +2007,34 @@ TimelineViewport 时间轴视图第一行在 md 下仍被浮岛遮挡（未修�
 
 ### HLG
 本记录经标准 append dry-run 与 apply 追加并重建派生索引，continuity=waiting（media-player-refactor）；过程台账存于 .superpowers/sdd/progress.md；无新增长期规则候选。
+
+## 2026-09-07T02:12:40+08:00 · PDEC 策略初始化草案已建立
+
+type: governance
+scope: ["Luvia-Gallery", "PDEC"]
+status: done
+tags: ["pdec", "governance", "initialization"]
+continuity: waiting
+continuity-key: pdec-initialization
+record-fingerprint: e0a69952591627f06d56b026dd6aec64040655e0ea9c80f3e207f2d61163e242
+
+### Summary
+按项目规则和 remote-development Skill 完成 PDEC 初始调查，并建立待审批 draft。
+
+### Changed
+新增 .pdec/contract.yaml 与 .pdec/README.md，登记 local-mac、fnos、main 候选位置、Web/Docker/macOS Widget 候选操作、证据 SHA256 和批准门禁；.agent/registry.md 已登记两个 PDEC 入口。Android/mobile 因 PDEC v1 不支持 android 目标而未伪造注册。
+
+### Validation
+pdec inspect 返回 state=draft、valid=true、structure_valid=true、drift=[]、execution_ready=false；validate 结构有效但因 draft 按预期返回不可执行；git diff --check 通过。
+
+### Next
+待项目负责人确认执行主机、Node/Docker 工具链、FNOS 容器构建/部署路线及 Android 后续适配范围；确认后再更新批准引用、contract_digest 并复验 execution_ready。
+
+### Risks
+fnos 与 main 本轮未重新连接核验；本机 Node 26 与 Docker/历史验证采用的 Node 20 尚未统一；生产部署仍关闭，未执行构建、测试、源码同步、部署或外部写入。
+
+### DIA
+已同步 .agent/registry.md，并新增 PDEC 说明入口；README、release_notes、API、数据结构无本次初始化影响。
+
+### HLG
+本记录使用 HLG append dry-run 生成，随后按标准 apply 追加并重建 handover-index；既有 handover 历史未改写。
