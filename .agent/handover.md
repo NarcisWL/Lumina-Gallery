@@ -1911,3 +1911,35 @@ TDD 红→绿（7 例新测试：公式 4 + 直写 DOM 3，Profiler 渲染探针
 
 ### HLG
 本记录经标准 append dry-run 与 apply 追加并重建派生索引，continuity=waiting（media-player-refactor）；过程台账存于 .superpowers/sdd/progress.md；无新增长期规则候选。
+
+## 2026-09-06T22:16:26+08:00 · 播放器自由缩放语义修正热修 967bd8f 已发布至 FNOS 生产
+
+type: release
+scope: ["Luvia-Gallery", "WebUI", "FNOS"]
+status: done
+tags: ["media-player", "floating-window", "hotfix", "fnos", "production"]
+continuity: waiting
+continuity-key: media-player-refactor
+event-date: 2026-09-06
+record-fingerprint: d2359c62ef9e8444487853196712daee3eebbfcf66477dabad500166526afde2
+
+### Summary
+用户澄清缩放语义后修正并发布：右缘/右下角拖拽从等比锁比改为标准窗口自由缩放（与下缘一致），双击右缘/角落回等比自适应。生产运行精确修订 967bd8ff84d1。
+
+### Changed
+右缘拖拽：width=起点+dx，heightOverride 锁定为起点容器渲染总高（含头部，与渲染路径同源无错位）；右下角：width 与 heightOverride 各自独立跟随（dx/dy）；双击右缘/角落清 heightOverride 回等比公式（width/ratio+44）；下缘语义不变；直写 DOM 零渲染与落盘机制保持。
+
+### Validation
+TDD 红→绿（5 例新/改用例）；独立评审 Approved（四项定向风险闭合：锁高同源无 44px 错位、dblclick 前置落盘序列收敛正确、旧断言改写自洽无残留、override/公式互斥）；全量 246/249（3 既有 Node 26 localStorage 环境失败）、build ✓、tsc 零新增；FNOS 构建+备份 quick_check=ok+旁路候选 200+切换；生产零重启、首页 200、API 401 正常。
+
+### Next
+用户人工验收三向缩放手感与双击回等比；阶段三打磨清单维持：下缘抓手无双击出口的可发现性、极小视口（≤340px 高）右缘锁高 clamp 缺口、dblclick 真实 pointer 序列单测盲区、fab 画中画、控制栏自动隐藏、EXIF apiFetch 重构；Docker Hub 补推 967bd8f-amd64 与 latest。
+
+### Risks
+高度锁定后回等比的唯一入口是双击右缘/角落（无视觉提示，可发现性弱）；极小视口下右缘锁高可能超出下边界 clamp 域（普通桌面视口不触发）。
+
+### DIA
+已同步 release_notes.md（v1.3.1 热修 967bd8f 段）；README、API、数据结构、registry 无新增影响。
+
+### HLG
+本记录经标准 append dry-run 与 apply 追加并重建派生索引，continuity=waiting（media-player-refactor）；过程台账存于 .superpowers/sdd/progress.md；无新增长期规则候选。
