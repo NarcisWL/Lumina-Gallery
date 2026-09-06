@@ -1847,3 +1847,35 @@ fab 形态视频卸载停播为主控裁决接受的规格偏差（56px 圆钮�
 
 ### HLG
 本记录经标准 append dry-run 与 apply 追加并重建派生索引，continuity=waiting（media-player-refactor）；过程台账存于 .superpowers/sdd/progress.md；无新增长期规则候选。
+
+## 2026-09-06T21:11:16+08:00 · 播放器浮窗三缺陷热修 925dbaa 已发布至 FNOS 生产
+
+type: release
+scope: ["Luvia-Gallery", "WebUI", "FNOS"]
+status: done
+tags: ["media-player", "floating-window", "hotfix", "fnos", "production"]
+continuity: waiting
+continuity-key: media-player-refactor
+event-date: 2026-09-06
+record-fingerprint: fcb915e7d3e36b3b27a5b289c70b767464b930c8925ecf6e2d07d45b529969e2
+
+### Summary
+用户人工验收反馈三项缺陷修复后发布：①全屏形态点关闭后黑底锁死（close 不重置 displayMode 且不退系统全屏，调度层渲染空壳）；②浮窗固定矩形不随媒体比例自适应（显式宽高覆盖 aspect-ratio）；③缺边缘拖拽缩放。生产运行精确修订 925dbaa。
+
+### Changed
+reducer close 重置 displayMode=window（close 语义=完全关闭，重开形态从 prefs 恢复）；PlayerFullscreen 关闭按钮先 exitFullscreen 再 close；MediaPlayer 调度层 isOpen=false 兜底不渲染全屏空壳；浮窗尺寸改 width+aspectRatio 双向预算（高度上限 80% 视口定宽收窄竖图、240px 宽度下限比例回推），删除显式 height 冲突；新增右缘/下缘/右下角 pointer 缩放抓手（横向拖宽 clamp[280,视口-48] 并清高度覆盖、纵向拖高 clamp[120,视口-24] 写 heightOverride 持久化，mini 无抓手）；顺带修复退出动画期间 windowControls 的 currentItem 空引用崩溃。
+
+### Validation
+TDD 红→绿（RED 14 失败确认）；独立评审 Approved（四项定向风险闭合：prefs 恢复路径、aspect-ratio 无冲突残留、resize 事件隔离、heightOverride 兼容）；全量前端 237/240（3 失败为既有 Node 26 localStorage 环境问题）、build ✓、tsc 零新增；FNOS 构建+备份 quick_check=ok+旁路候选（产物含 player-resize 特征）+切换；生产零重启，首页/资产 200、API 401 正常。
+
+### Next
+用户继续人工验收浮窗（关闭、比例贴合、边缘缩放、真实浏览器 resize 手感）；阶段三打磨清单维持（fab 画中画、window→fullscreen 出场过渡、aspect-ratio 作用于内容区像素级贴合、极窄视口 clamp 收缩、usePaneLanguage 倒挂、EXIF apiFetch 重构、控制栏自动隐藏）；Docker Hub 补推 925dbaa-amd64 与 latest。
+
+### Risks
+下缘拖高的 heightOverride 为持久覆盖（横向拖宽或右下角拖动时清除回比例自适应）——用户可能需要重置入口；信息面板/收藏等控制栏在 240px 最窄窗接近满宽（既有披露）。
+
+### DIA
+已同步 release_notes.md（v1.3.1 热修段：三项修复、备份、回滚、生产验证）；README、API、数据结构、registry 无新增影响。
+
+### HLG
+本记录经标准 append dry-run 与 apply 追加并重建派生索引，continuity=waiting（media-player-refactor）；过程台账存于 .superpowers/sdd/progress.md；无新增长期规则候选。
