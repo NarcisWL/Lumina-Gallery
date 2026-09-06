@@ -1,6 +1,6 @@
 # Handover Index
 
-> generated_at: 2026-09-07T02:41:08+08:00
+> generated_at: 2026-09-07T03:01:55+08:00
 > generated: true; do not edit manually
 > recovery_window_days: 7
 
@@ -21,6 +21,7 @@
 
 | date | format | status | continuity | scope | tags | title | source |
 | :---: | :---: | :---: | :---: | :--- | :--- | :--- | :--- |
+| 2026-09-07T03:01:55+08:00 | iso | done | none | ["Luvia-Gallery", "PDEC", "Git"] | ["pdec", "merge", "branch-cleanup"] | PDEC 已合并到 main 并清理无用分支 | `.agent/handover.md` · `2026-09-07T03:01:55+08:00` · `fp:31c2352358` |
 | 2026-09-07T02:41:08+08:00 | iso | done | waiting | ["Luvia-Gallery", "PDEC", "Android"] | ["pdec", "approval", "android", "main"] | PDEC 批准：Android 执行主机设为 MAIN | `.agent/handover.md` · `2026-09-07T02:41:08+08:00` · `fp:8ee7b2686f` |
 | 2026-09-07T02:12:40+08:00 | iso | done | waiting | ["Luvia-Gallery", "PDEC"] | ["pdec", "governance", "initialization"] | PDEC 策略初始化草案已建立 | `.agent/handover.md` · `2026-09-07T02:12:40+08:00` · `fp:e0a6995259` |
 | 2026-09-07T00:40:59+08:00 | iso | done | waiting | ["Luvia-Gallery", "WebUI", "FNOS"] | ["media-player", "grid", "safe-area", "fnos", "production"] | v1.3.2 网格安全区与播放器自适应/最大化已发布至 FNOS 生产 | `.agent/handover.md` · `2026-09-07T00:40:59+08:00` · `fp:ebe7936159` |

@@ -2069,3 +2069,33 @@ execution_ready 只表示契约结构和证据通过，不代表远端主机、A
 
 ### HLG
 本记录使用标准 append dry-run 后 apply 追加，并重建 handover-index；既有 handover 历史未改写。
+
+## 2026-09-07T03:01:55+08:00 · PDEC 已合并到 main 并清理无用分支
+
+type: governance
+scope: ["Luvia-Gallery", "PDEC", "Git"]
+status: done
+tags: ["pdec", "merge", "branch-cleanup"]
+continuity: none
+record-fingerprint: 31c23523582915ba784f857c5d8b50e5e294795b6c36bc12849091b078f5cd22
+
+### Summary
+PDEC 批准契约已快进合并到 main 并推送；已按分支证据清理明确无用分支。
+
+### Changed
+main 从 2cdd3fdf 快进至 cd9cc1ab5d53d17b3665258752b31cba07287cd3；删除本地 codex/pdec-initialization、codex/unified-gallery-toolbar，删除远端 codex/pdec-initialization、webui-refactor。保留有未提交 worktree 的 codex/android-compose-rewrite、有独立未合并提交的 codex/web-navigation-upgrade，以及 release 和 backup/legacy-v1-pre-refactor 保护分支。
+
+### Validation
+Node 20 临时副本合并后 npm test 54/54 通过；pdec validate 返回 approved、valid=true、execution_ready=true、drift=[]；main 远端 SHA 与本地一致；主 worktree 干净，Android worktree 用户未提交文件保持不变。
+
+### Next
+后续新会话从 main 启动即可读取已批准 PDEC；执行 Android 任务前仍需按契约复核 MAIN 可达性、SDK/JDK、设备链路和 Android 目标适配。
+
+### Risks
+本次未执行 Android 构建、浏览器/设备联调或生产部署；deployment.enabled 仍为 false。保留分支仍需按其各自工作流管理。
+
+### DIA
+PDEC 与 registry 已在前序批准提交中同步；本次合并和分支清理无新增业务文档影响。
+
+### HLG
+本记录使用标准 append dry-run 后 apply 追加并重建 handover-index；既有交接历史未改写。
