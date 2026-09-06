@@ -1975,3 +1975,35 @@ TDD 红→绿（4 例新用例：竖图收窄、视频转横、切项重置、ov
 
 ### HLG
 本记录经标准 append dry-run 与 apply 追加并重建派生索引，continuity=waiting（media-player-refactor）；过程台账存于 .superpowers/sdd/progress.md；无新增长期规则候选。
+
+## 2026-09-07T00:40:59+08:00 · v1.3.2 网格安全区与播放器自适应/最大化已发布至 FNOS 生产
+
+type: release
+scope: ["Luvia-Gallery", "WebUI", "FNOS"]
+status: done
+tags: ["media-player", "grid", "safe-area", "fnos", "production"]
+continuity: waiting
+continuity-key: media-player-refactor
+event-date: 2026-09-07
+record-fingerprint: ebe7936159cab3bb3a122f2c1d490be23b83a003881021463640baa8fdbae51f
+
+### Summary
+用户验收反馈三项改动完成并发布：网格视图顶部安全区、播放器比例自适应生命周期修正（heightOverride 会话化+缓存兜底+CSS transition 动画）、最大化按钮（浏览器视口内）。生产运行精确修订 5b26b5f84288。
+
+### Changed
+GridViewport 外层 wrapper 加 GRID_TOP_SAFE_AREA_CLASSES(md:pt-16)，滚动容器在 padding 内侧、虚拟化坐标零改动；heightOverride 改当前打开会话内存态（open/切媒体清除、不再持久化），img complete/video readyState 兜底上报真实比例（缓存命中 onLoad 不触发场景）；容器 CSS transition（width/height/left/top 0.25s，交互期 none）替代 framer-motion layout；displayMode 新增 maximized（12px 边距铺满视口、prefs 归一化、Esc 回 window、不落盘），控制栏加最大化按钮（Icons.Grid/Minimize）。
+
+### Validation
+两路并行实现（文件无重叠）+ 联合评审 Approved（五项定向风险闭合：网格 AutoSizer 扣除 padding、transition 与直写共存、layout 移除后形态过渡承接、maximized 分支与归一化、heightOverride 会话化兼容旧记录）；全量前端 265/268（3 失败为既有 Node 26 localStorage 环境问题）、build ✓、tsc 零新增；FNOS 构建+备份 quick_check=ok+旁路候选 200+切换；生产零重启、首页/资产 200、产物含 player-maximize-btn 特征、API 401 正常。
+
+### Next
+用户人工验收网格第一行、弹窗比例贴合（打开/切媒体/最大化）、真实浏览器 transition 与最大化表现；TimelineViewport 同病待用户确认后处理；阶段三清单：陈旧注释清理、fab 画中画、出场过渡、视口 resize 重 clamp、EXIF apiFetch 重构、控制栏自动隐藏、contentEditable 键盘守卫测试；Docker Hub 补推 5b26b5f-amd64 与 latest。
+
+### Risks
+TimelineViewport 时间轴视图第一行在 md 下仍被浮岛遮挡（未修，待确认）；网格安全区使内容不从浮岛下穿过，毛玻璃在该视图无可模糊内容（视觉取舍已披露）；heightOverride 会话化后旧持久记录一次性失效（按新需求即预期行为）。
+
+### DIA
+已同步 release_notes.md（v1.3.2 小节含三项改动、部署流程与验证）；计划无新增；README、API、数据结构、registry 无新增影响。
+
+### HLG
+本记录经标准 append dry-run 与 apply 追加并重建派生索引，continuity=waiting（media-player-refactor）；过程台账存于 .superpowers/sdd/progress.md；无新增长期规则候选。

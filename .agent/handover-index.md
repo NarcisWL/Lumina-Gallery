@@ -1,6 +1,6 @@
 # Handover Index
 
-> generated_at: 2026-09-06T22:55:31+08:00
+> generated_at: 2026-09-07T00:40:59+08:00
 > generated: true; do not edit manually
 > recovery_window_days: 7
 
@@ -13,13 +13,14 @@
 | macos-floating-widget | resume | 2026-07-25T13:18:00+08:00 | done | macos-widget/desktop-widget-mode | Dock 隐藏/菜单栏入口/分屏记忆/点击穿透/WidgetKit 清理 | `.agent/handover.md` · `2026-07-25T13:18:00+08:00` · `fp:3e60e6d4d0` |
 | macos-per-display-placement-v2 | waiting | 2026-07-30T01:18:25+08:00 | done | ["Luvia-Gallery", "macOS-widget", "local-install"] | macOS 每显示器位置 V2 已安装 | `.agent/handover.md` · `2026-07-30T01:18:25+08:00` · `fp:22f05e2741` |
 | macos-release-signing | resume | 2026-07-31T00:36:50+08:00 | done | ["macos-widget", "local-install", "release-signing"] | macOS 应用安装后无法启动根因诊断 | `.agent/handover.md` · `2026-07-31T00:36:50+08:00` · `fp:f7c14e00f0` |
-| media-player-refactor | waiting | 2026-09-06T22:55:31+08:00 | done | ["Luvia-Gallery", "WebUI", "FNOS"] | 浮窗真实比例自适应热修 f894676 已发布至 FNOS 生产 | `.agent/handover.md` · `2026-09-06T22:55:31+08:00` · `fp:c1126ceba6` |
+| media-player-refactor | waiting | 2026-09-07T00:40:59+08:00 | done | ["Luvia-Gallery", "WebUI", "FNOS"] | v1.3.2 网格安全区与播放器自适应/最大化已发布至 FNOS 生产 | `.agent/handover.md` · `2026-09-07T00:40:59+08:00` · `fp:ebe7936159` |
 | webui-large-library-performance | waiting | 2026-08-13T02:03:17+08:00 | waiting | ["Luvia-Gallery", "webui", "server", "sqlite"] | WebUI 大媒体库候选提交收口 | `.agent/handover.md` · `2026-08-13T02:03:17+08:00` · `fp:e4e4629bec` |
 
 ## Recent 7-Day Catalog
 
 | date | format | status | continuity | scope | tags | title | source |
 | :---: | :---: | :---: | :---: | :--- | :--- | :--- | :--- |
+| 2026-09-07T00:40:59+08:00 | iso | done | waiting | ["Luvia-Gallery", "WebUI", "FNOS"] | ["media-player", "grid", "safe-area", "fnos", "production"] | v1.3.2 网格安全区与播放器自适应/最大化已发布至 FNOS 生产 | `.agent/handover.md` · `2026-09-07T00:40:59+08:00` · `fp:ebe7936159` |
 | 2026-09-06T22:55:31+08:00 | iso | done | waiting | ["Luvia-Gallery", "WebUI", "FNOS"] | ["media-player", "floating-window", "hotfix", "fnos", "production"] | 浮窗真实比例自适应热修 f894676 已发布至 FNOS 生产 | `.agent/handover.md` · `2026-09-06T22:55:31+08:00` · `fp:c1126ceba6` |
 | 2026-09-06T22:16:26+08:00 | iso | done | waiting | ["Luvia-Gallery", "WebUI", "FNOS"] | ["media-player", "floating-window", "hotfix", "fnos", "production"] | 播放器自由缩放语义修正热修 967bd8f 已发布至 FNOS 生产 | `.agent/handover.md` · `2026-09-06T22:16:26+08:00` · `fp:d2359c62ef` |
 | 2026-09-06T21:51:28+08:00 | iso | done | waiting | ["Luvia-Gallery", "WebUI", "FNOS"] | ["media-player", "floating-window", "hotfix", "fnos", "production"] | 播放器浮窗贴合与跟手热修 191b4a6 已发布至 FNOS 生产 | `.agent/handover.md` · `2026-09-06T21:51:28+08:00` · `fp:0291aac4ad` |
