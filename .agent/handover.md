@@ -1879,3 +1879,35 @@ TDD 红→绿（RED 14 失败确认）；独立评审 Approved（四项定向风
 
 ### HLG
 本记录经标准 append dry-run 与 apply 追加并重建派生索引，continuity=waiting（media-player-refactor）；过程台账存于 .superpowers/sdd/progress.md；无新增长期规则候选。
+
+## 2026-09-06T21:51:28+08:00 · 播放器浮窗贴合与跟手热修 191b4a6 已发布至 FNOS 生产
+
+type: release
+scope: ["Luvia-Gallery", "WebUI", "FNOS"]
+status: done
+tags: ["media-player", "floating-window", "hotfix", "fnos", "production"]
+continuity: waiting
+continuity-key: media-player-refactor
+event-date: 2026-09-06
+record-fingerprint: 0291aac4adb340523d60b93b6eb8e6262c7d93cc9c12a231d86167223205ab40
+
+### Summary
+用户人工验收反馈两项体验缺陷修复后发布：①浮窗内媒体留白过多（等比模式 aspect-ratio 作用于含 44px 头部的整容器 + 旧全屏查看器 p-4/p-10 内边距叠加）；②拖动/缩放延迟大不跟手（pointermove 走 setState 且容器 layout 补间）。生产运行精确修订 191b4a668d80。
+
+### Changed
+等比模式高度改显式公式 height=width/ratio+HEADER_HEIGHT(44px)，移除 aspectRatio 样式——内容区比例严格贴合媒体；ImageViewPane 移除 scale===1 的 p-4 md:p-10 内边距（媒体贴边 contain）；拖动与三个缩放抓手的 pointermove 改为直写 windowRef.style（零 setState、零 React 渲染，Profiler 探针证实），isInteracting 手势期禁用 framer-motion layout 补间，pointerup 一次性 setState+saveWindowPrefs 落库（值与直写一致无跳变）。
+
+### Validation
+TDD 红→绿（7 例新测试：公式 4 + 直写 DOM 3，Profiler 渲染探针断言）；独立评审 Approved（四项定向风险核实：isInteracting 渲染时机、直写与受控 style 冲突路径、竖图预算推导、手势隔离）；全量前端 244/247（3 失败为既有 Node 26 localStorage 环境问题）、build ✓、tsc 零新增；FNOS 构建+备份 quick_check=ok+旁路候选 200+切换；生产零重启，首页/资产 200，产物内容哈希文件名（index-CQOWNdkO.js）与本地同代码构建一致，确认为新构建。
+
+### Next
+用户人工验收浮窗贴合与拖拽跟手手感（真机）；阶段三打磨清单维持（fab 画中画/keep-alive、window→fullscreen 出场过渡、竖图横向拖宽释放回弹的直写期预算钳制、usePaneLanguage 倒挂、EXIF apiFetch 重构、控制栏自动隐藏、contentEditable 键盘守卫测试补缺）；Docker Hub 补推 191b4a6-amd64 与 latest。
+
+### Risks
+竖图横向拖宽途中容器可暂时超 80% 视口高预算，pointerup 由渲染公式收敛产生一次回弹（直写期不做预算钳制，拖动体验连贯性与终态正确性取舍）；拖动中按方向键切项会以旧位置重写 style 产生一次跳变（pointerup 收敛）；二者均 Minor 已披露。
+
+### DIA
+已同步 release_notes.md（v1.3.1 热修 191b4a6 段：两项修复、备份、回滚、生产验证与产物哈希比对证据）；README、API、数据结构、registry 无新增影响。
+
+### HLG
+本记录经标准 append dry-run 与 apply 追加并重建派生索引，continuity=waiting（media-player-refactor）；过程台账存于 .superpowers/sdd/progress.md；无新增长期规则候选。
