@@ -2160,3 +2160,35 @@ FNOS 实机核验为 Linux x86_64，Git 2.39.2、Python 3.11.2；同步服务以
 
 ### HLG
 已按 append 规范执行 dry-run 与 apply，记录追加至 handover.md EOF，handover-index.md 由脚本重建；既有历史未改写。
+
+## 2026-09-07T03:54:08+08:00 · 弹窗切换保持比例与网格渲染隔离热修 fc90482 已发布至 FNOS 生产
+
+type: release
+scope: ["Luvia-Gallery", "WebUI", "FNOS"]
+status: done
+tags: ["media-player", "floating-window", "performance", "hotfix", "fnos", "production"]
+continuity: waiting
+continuity-key: media-player-refactor
+event-date: 2026-09-07
+record-fingerprint: 8217805b81d72685e5a4a5fa2d426e22ce667f787d196d6f57e1e86eef4adb64
+
+### Summary
+用户验收反馈两项修复后发布：①弹窗切换上一张/下一张时保持当前比例（移除 loadedRatio 切项重置回 16:9 的中间动作），新媒体加载上报后经 CSS transition 平滑过渡；②VirtualGallery 与三视口组件 memo 化并稳定化 App 传参，播放器切换不再引发网格全量重渲染闪烁。生产运行精确修订 fc90482f38ec。
+
+### Changed
+PlayerWindow 移除 loadedRatio 切项重置 effect（加载失败保持旧比例，contain 显示，注释取舍）；VirtualGallery/GridViewport/MasonryViewport/TimelineViewport 包 React.memo（forwardRef 组合，ref 透传不变）；App.tsx 新增 useStableEventHandler（ref+useLayoutEffect 最新闭包壳）稳定化六个回调，items 的 filter(Boolean) 每帧新数组收敛为 useMemo；新增渲染计数探针测试（React 19 Profiler.onRender 整树拦截不可用，改用 AutoSizer/FolderCard 执行计数）。
+
+### Validation
+两路并行实现（文件无重叠）+ 联合评审 Approved（四项定向风险：视频 contain 无变形、useStableEventHandler 无过期闭包窗口、restoreCommand 引用必变穿透 memo、PlayerWindow 经 context 直达不受 memo 拦截）；全量前端 272/275（3 失败为既有 Node 26 localStorage 环境问题）、build ✓、tsc 零新增；FNOS 构建+备份 quick_check=ok+旁路候选 200+切换；生产零重启、首页 200、API 401 正常。注意：FNOS SSH 主机名由 Fnos 更名 FNOS（用户 PDEC 主机规范化），部署命令已同步。
+
+### Next
+用户人工验收切换比例保持与网格稳定性；阶段三清单：TimelineViewport 安全区（同病未修，待确认）、下缘抓手回等比可发现性、极竖图收敛策略、fab 画中画、EXIF apiFetch 重构、控制栏自动隐藏、contentEditable 守卫测试；Docker Hub 补推 fc90482-amd64 与 latest。
+
+### Risks
+React.memo 固有限制：未来新增每帧新引用的 prop 会静默击穿隔离（正确性无损仅退化，渲染探针测试可作回归哨兵）；useStableEventHandler 若被误用于 render 期同步调用会读到上一 commit 闭包（当前六个调用点均为事件/IO 回调）。
+
+### DIA
+已同步 release_notes.md（v1.3.2 热修 fc90482 段）；README、API、数据结构、registry 无新增影响。
+
+### HLG
+本记录经标准 append dry-run 与 apply 追加并重建派生索引，continuity=waiting（media-player-refactor）；过程台账存于 .superpowers/sdd/progress.md；无新增长期规则候选。
