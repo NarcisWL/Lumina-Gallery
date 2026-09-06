@@ -4,10 +4,10 @@
     "id": "Luvia-Gallery",
     "remote": "https://github.com/Promenar/Luvia-Gallery.git"
   },
-  "status": "draft",
+  "status": "approved",
   "approval": {
-    "reference": "",
-    "contract_digest": ""
+    "reference": "用户消息（2026-09-07）：Android端的目标PDEC平台可以设置至MAIN主机，其它批准",
+    "contract_digest": "ecad063ebd6457e356fbcfd169a7c9920888eded89f25a8bfe5c45a74bcc6064"
   },
   "targets": {
     "local-mac": {
@@ -23,7 +23,8 @@
     "main": {
       "os": "windows",
       "arch": "x86_64",
-      "state": "candidate-recheck-required"
+      "state": "approved-android-executor-recheck-required",
+      "roles": ["android-executor"]
     }
   },
   "operations": {

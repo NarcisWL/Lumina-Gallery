@@ -2038,3 +2038,34 @@ fnos 与 main 本轮未重新连接核验；本机 Node 26 与 Docker/历史验�
 
 ### HLG
 本记录使用 HLG append dry-run 生成，随后按标准 apply 追加并重建 handover-index；既有 handover 历史未改写。
+
+## 2026-09-07T02:41:08+08:00 · PDEC 批准：Android 执行主机设为 MAIN
+
+type: governance
+scope: ["Luvia-Gallery", "PDEC", "Android"]
+status: done
+tags: ["pdec", "approval", "android", "main"]
+continuity: waiting
+continuity-key: pdec-initialization
+record-fingerprint: 8ee7b2686f733f4e19eecb2d87c56a63743a6182c948b82b2072fe800b3e1a5b
+
+### Summary
+用户批准将 Android 端执行主机设置为 MAIN，并批准此前 PDEC 草案的其余已登记范围；契约已切换为 approved。
+
+### Changed
+contract.yaml 的 status 改为 approved，main target 增加 android-executor 角色，记录真实用户批准引用并绑定 contract_digest=ecad063ebd6457e356fbcfd169a7c9920888eded89f25a8bfe5c45a74bcc6064；PDEC README 与 registry 已同步。由于 PDEC v1 不支持 android target_os，未伪造 Android 产物操作。
+
+### Validation
+pdec inspect 与 validate 均返回 state=approved、valid=true、structure_valid=true、execution_ready=true、drift=[]；git diff --check 通过。仅完成契约治理变更，未执行 Android 构建、Web 测试、容器构建或生产部署。
+
+### Next
+执行具体 Android 任务前复核 MAIN 的当前可达性、Windows/Android SDK/JDK 与设备链路；待 PDEC 支持 Android 目标或适配器落地后，再登记 Android 产物、签名、设备验收和 CI 字段。
+
+### Risks
+execution_ready 只表示契约结构和证据通过，不代表远端主机、Android 工具链或设备已验证；本机 Node 26 与历史 Node 20 工具链差异仍在 PDEC README 中披露；deployment.enabled 仍为 false，生产部署未获授权。
+
+### DIA
+已同步 .pdec/README.md、.pdec/contract.yaml 与 .agent/registry.md；README、release_notes、API、数据结构无新增影响。
+
+### HLG
+本记录使用标准 append dry-run 后 apply 追加，并重建 handover-index；既有 handover 历史未改写。
