@@ -2129,3 +2129,34 @@ Android worktree 的 6 个未提交文件已按用户确认永久从工作区丢
 
 ### HLG
 已按 append 规范执行 dry-run 与 apply，记录追加至 handover.md EOF，handover-index.md 由脚本重建；既有历史未改写。
+
+## 2026-09-07T03:19:34+08:00 · FNOS 建立 Luvia-Gallery 源码裸仓库与定时同步
+
+type: implementation
+scope: ["Luvia-Gallery", "FNOS", "PDEC"]
+status: done
+tags: ["source-sync", "fnos", "devfleet", "pdec"]
+continuity: waiting
+continuity-key: luvia-gallery-source-sync
+record-fingerprint: d1514553f5adf86ca6182efdcfe666a92611b3d514789e96639e97e48289e491
+
+### Summary
+用户授权后，已在 FNOS 的 DevFleet 源码根登记 Luvia-Gallery，并接入既有受限 systemd 源码同步服务。GitHub main 仍为唯一源码中心，生产目录和容器未触碰。
+
+### Changed
+在 FNOS 本机配置 /vol2/1000/FRAGMENTS/DevFleet/.devfleet/sync.json 中原子追加公开仓库 id=luvia-gallery、URL=https://github.com/Promenar/Luvia-Gallery.git、enabled=true；登记前配置备份为 sync.json.before-luvia-gallery-20260907。同步目标为 /vol2/1000/FRAGMENTS/DevFleet/luvia-gallery/repository.git 裸仓库，由现有 devfleet-source-sync.service 与 devfleet-source-sync.timer 管理。更新 .pdec/README.md，补充当前源码同步状态和边界。
+
+### Validation
+FNOS 实机核验为 Linux x86_64，Git 2.39.2、Python 3.11.2；同步服务以普通用户 Promenar 运行，timer enabled/active，服务成功退出且 timer 仍 active。source_sync dry-run 返回 ready；首次 apply 和 sudo -n systemd 即时触发均完成，personal-archive、indenp-website、luvia-gallery 均为 success。裸仓库为 bare，HEAD=refs/heads/main，main 精确指向 1053cb833e116f62f130626718efec263bf8caf5；公开 URL、配置备份、权限 700 与生产 /vol2/1000/APPDATA 隔离均已核验。直接以普通用户 systemctl 手动触发被权限策略拒绝，未放宽权限，随后使用已有 sudo -n 受控入口成功。PDEC validate 仍为 approved、valid=true、execution_ready=true、drift=[]。
+
+### Next
+源码同步与构建/测试/生产切换保持独立；后续 FNOS 构建须从已同步裸仓库按确切 SHA 准备活动工作区，并继续执行候选镜像、旁路验证和生产授权门禁。
+
+### Risks
+本次同步只保存 Git refs，不是离线备份；网络、挂载、认证或分歧会使该项目同步失败且不强制覆盖。FNOS 容器构建尚未因本次同步自动执行，PDEC 中 container-build-fnos 仍需执行前复核。
+
+### DIA
+已同步 .pdec/README.md，并保留 .agent/registry.md 已有 PDEC 入口；未修改业务代码、生产 Compose、README、release_notes 或机器本地认证配置。
+
+### HLG
+已按 append 规范执行 dry-run 与 apply，记录追加至 handover.md EOF，handover-index.md 由脚本重建；既有历史未改写。

@@ -1,6 +1,6 @@
 # Handover Index
 
-> generated_at: 2026-09-07T03:08:08+08:00
+> generated_at: 2026-09-07T03:19:34+08:00
 > generated: true; do not edit manually
 > recovery_window_days: 7
 
@@ -10,6 +10,7 @@
 | :--- | :---: | :---: | :---: | :--- | :--- | :--- |
 | fnos-media-stall | waiting | 2026-07-20T00:41:43+08:00 | done | fnos-production | FNOS 媒体浏览全局停顿优化实现 | `.agent/handover.md` · `2026-07-20T00:41:43+08:00` · `fp:7c3e90785f` |
 | fnos-udp-qos | resume | 2026-07-23T21:12:00+08:00 | done | macos-widget/loading-network | 修正：UDP QoS 推论推翻 + 加载转圈/失败根因实为 App 实现 + 启动层级修复 | `.agent/handover.md` · `2026-07-23T21:12:00+08:00` · `fp:130fa8d362` |
+| luvia-gallery-source-sync | waiting | 2026-09-07T03:19:34+08:00 | done | ["Luvia-Gallery", "FNOS", "PDEC"] | FNOS 建立 Luvia-Gallery 源码裸仓库与定时同步 | `.agent/handover.md` · `2026-09-07T03:19:34+08:00` · `fp:d1514553f5` |
 | macos-floating-widget | resume | 2026-07-25T13:18:00+08:00 | done | macos-widget/desktop-widget-mode | Dock 隐藏/菜单栏入口/分屏记忆/点击穿透/WidgetKit 清理 | `.agent/handover.md` · `2026-07-25T13:18:00+08:00` · `fp:3e60e6d4d0` |
 | macos-per-display-placement-v2 | waiting | 2026-07-30T01:18:25+08:00 | done | ["Luvia-Gallery", "macOS-widget", "local-install"] | macOS 每显示器位置 V2 已安装 | `.agent/handover.md` · `2026-07-30T01:18:25+08:00` · `fp:22f05e2741` |
 | macos-release-signing | resume | 2026-07-31T00:36:50+08:00 | done | ["macos-widget", "local-install", "release-signing"] | macOS 应用安装后无法启动根因诊断 | `.agent/handover.md` · `2026-07-31T00:36:50+08:00` · `fp:f7c14e00f0` |
@@ -21,6 +22,7 @@
 
 | date | format | status | continuity | scope | tags | title | source |
 | :---: | :---: | :---: | :---: | :--- | :--- | :--- | :--- |
+| 2026-09-07T03:19:34+08:00 | iso | done | waiting | ["Luvia-Gallery", "FNOS", "PDEC"] | ["source-sync", "fnos", "devfleet", "pdec"] | FNOS 建立 Luvia-Gallery 源码裸仓库与定时同步 | `.agent/handover.md` · `2026-09-07T03:19:34+08:00` · `fp:d1514553f5` |
 | 2026-09-07T03:08:08+08:00 | iso | done | none | ["Luvia-Gallery", "Git"] | ["branch-cleanup", "discard", "worktree", "git"] | 按用户确认丢弃无价值分支与 Android worktree | `.agent/handover.md` · `2026-09-07T03:08:08+08:00` · `fp:0ac150c5cf` |
 | 2026-09-07T03:01:55+08:00 | iso | done | none | ["Luvia-Gallery", "PDEC", "Git"] | ["pdec", "merge", "branch-cleanup"] | PDEC 已合并到 main 并清理无用分支 | `.agent/handover.md` · `2026-09-07T03:01:55+08:00` · `fp:31c2352358` |
 | 2026-09-07T02:41:08+08:00 | iso | done | waiting | ["Luvia-Gallery", "PDEC", "Android"] | ["pdec", "approval", "android", "main"] | PDEC 批准：Android 执行主机设为 MAIN | `.agent/handover.md` · `2026-09-07T02:41:08+08:00` · `fp:8ee7b2686f` |

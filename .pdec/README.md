@@ -5,7 +5,7 @@
 ## 项目与范围
 
 - 项目：Luvia Gallery，GitHub 远端为 `https://github.com/Promenar/Luvia-Gallery.git`。
-- 当前初始化快照：`main` 与 `origin/main` 一致，HEAD 为 `2cdd3fdfabd6234e072d7a9e838f22ffa0601236`；初始化没有构建、测试、同步或部署。
+- 当前快照：`main` 与 `origin/main` 一致，HEAD 为 `1053cb833e116f62f130626718efec263bf8caf5`；FNOS 源码同步已建立并完成首次成功运行，未触发构建或生产部署。
 - 本契约第一阶段覆盖 Web React/Vite、Node.js/SQLite 服务、Docker 容器和 macOS 悬浮窗 App。
 - `mobile/` 与 `native-ui/` 的 Android 执行主机已批准为 `main`；PDEC v1 的 `target_os` 枚举不包含 Android，因此当前只在 `main` target 的 `roles` 和本说明中登记执行主机，不用 Windows 目标冒充 Android 产物。Android 的 SDK/JDK、产物和设备验收字段仍待后续 Android 适配器支持。
 
@@ -14,7 +14,7 @@
 | 别名 | 用途 | 当前证据 | 状态 |
 | --- | --- | --- | --- |
 | `local-mac` | Web 日常检查、macOS Widget 测试与打包 | 本轮实测 Darwin arm64、Node `v26.5.1`、npm `11.17.0`、Docker `29.7.1`、Compose `5.3.1`、Xcode `26.6`、Swift `6.3.3` | 已核验主机；Node 版本与 Docker 固化的 Node 20 尚未统一 |
-| `fnos` | Linux x86_64 容器构建及生产候选验证 | `remote-development` 主机证据（2026-09-06）记录为 FNOS x86_64 KVM；近期 HLG 记录有原生 Docker 构建、数据库副本、只读媒体旁路和回滚标签证据 | 本轮未重新连接核验，执行前必须复核 |
+| `fnos` | Linux x86_64 源码同步、容器构建及生产候选验证 | 2026-09-07 实机复核为 Linux x86_64，Git 2.39.2、Python 3.11.2；源码同步 timer、service、DevFleet 根与生产目录隔离均已核验 | 源码同步已核验；容器构建和生产候选执行前仍需复核 |
 | `main` | Windows 专属构建与 Android 执行主机 | `remote-development` 主机证据（2026-09-06）记录为 Windows 11 x86_64，开发卷与缓存布局已有登记 | 已批准作为 Android 执行主机；本轮未重新连接核验，执行前必须复核 |
 
 设备路径、凭据、令牌、SSH 配置和生产数据库真实位置不写入契约；它们只由已授权执行器的本机配置提供。
@@ -31,16 +31,24 @@
 
 ## 当前方式与迁移差异
 
-现有项目以 Mac 编辑、GitHub `main` 为版本中心，Web 本地入口为 npm/Vite，生产镜像由 Dockerfile 构建，历史生产候选在 FNOS Linux x86_64 上进行旁路验证后切换。近期交接记录还保留了 SQLite 一致性备份、只读媒体挂载、生产零重启检查和回滚镜像标签等证据。
+现有项目以 Mac 编辑、GitHub `main` 为版本中心，Web 本地入口为 npm/Vite，生产镜像由 Dockerfile 构建，历史生产候选在 FNOS Linux x86_64 上进行旁路验证后切换。FNOS 现已在独立 DevFleet 源码根登记 `Luvia-Gallery` 裸仓库，并由受限 systemd oneshot/timer 增量同步；同步、构建、浏览器/设备验收和生产切换仍是独立步骤。近期交接记录还保留了 SQLite 一致性备份、只读媒体挂载、生产零重启检查和回滚镜像标签等证据。
 
-PDEC 已从无机器可读契约切换为已批准契约；后续开发、构建、联调和部署应绑定项目、确切 SHA、契约摘要、工具链、执行位置、操作名和任务身份。源码同步、构建触发、浏览器/设备验收和生产切换仍是独立步骤，不由本文件自动触发。
+PDEC 已从无机器可读契约切换为已批准契约；后续开发、构建、联调和部署应绑定项目、确切 SHA、契约摘要、工具链、执行位置、操作名和任务身份。源码同步已作为独立主机服务落地，不由 PDEC 自动触发构建或部署；构建触发、浏览器/设备验收和生产切换仍是独立步骤。
+
+## 源码同步状态
+
+- FNOS 源码根为主机本地配置 `/vol2/1000/FRAGMENTS/DevFleet`；`Luvia-Gallery` 登记为 `luvia-gallery`，目标为该目录下的 `repository.git` 裸仓库。
+- 同步源为公开 GitHub `https://github.com/Promenar/Luvia-Gallery.git`，GitHub `main` 仍是唯一版本中心；同步器只增量 fetch 分支和标签，不检出活动工作区、不强制覆盖分歧、不执行项目脚本。
+- `devfleet-source-sync.service` 以普通用户 `Promenar` 运行，`devfleet-source-sync.timer` 使用约 2 分钟间隔；服务仅允许写入 DevFleet，配置保留在 FNOS 主机本地并已保留登记前备份。
+- 2026-09-07 首次 apply 与 systemd 即时触发均成功；FNOS 裸仓库 `refs/heads/main` 已核验精确指向 `1053cb833e116f62f130626718efec263bf8caf5`。源码根与生产 `/vol2/1000/APPDATA` 分离，源码同步不会触碰生产容器。
+- 源码登记与 PDEC 批准相互独立；后续若修改同步根、仓库 URL、调度器或权限，必须重新执行主机核验并更新本说明及 HLG。
 
 执行前仍需复核或补齐的字段：
 
-1. `fnos`、`main` 的当前可达性、架构、工具链版本与执行器生命周期；主机选择本身已批准。
+1. 每次执行前复核 `fnos`、`main` 的当前可达性、架构、工具链版本与执行器生命周期；FNOS 源码同步链路已核验，主机选择本身已批准。
 2. Web 测试应固定在 Node 20 容器、FNOS，还是补齐本机 Node 20 后使用 `local-mac`。
 3. Docker 构建采用 FNOS 原生构建，还是 Mac buildx 交叉构建；若交叉构建，必须同时填写机制和目标环境验证。
-4. 生产传输路线、生产目标别名、健康检查、回滚标识和当前任务的部署批准。当前 `deployment.enabled=false`，没有部署授权。
+4. 生产传输路线、生产目标别名、健康检查、回滚标识和当前任务的部署批准。当前 `deployment.enabled=false`，本次源码同步授权不等于生产部署授权。
 5. Android/mobile 的目标平台、签名/产物位置、设备联调与 CI 执行器；Android 执行主机已确定为 `main`，但 PDEC v1 尚不能登记 Android 产物目标。
 
 ## 审批与执行门禁
