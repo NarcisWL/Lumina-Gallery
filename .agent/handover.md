@@ -1943,3 +1943,35 @@ TDD 红→绿（5 例新/改用例）；独立评审 Approved（四项定向风�
 
 ### HLG
 本记录经标准 append dry-run 与 apply 追加并重建派生索引，continuity=waiting（media-player-refactor）；过程台账存于 .superpowers/sdd/progress.md；无新增长期规则候选。
+
+## 2026-09-06T22:55:31+08:00 · 浮窗真实比例自适应热修 f894676 已发布至 FNOS 生产
+
+type: release
+scope: ["Luvia-Gallery", "WebUI", "FNOS"]
+status: done
+tags: ["media-player", "floating-window", "hotfix", "fnos", "production"]
+continuity: waiting
+continuity-key: media-player-refactor
+event-date: 2026-09-06
+record-fingerprint: c1126ceba6310c07f83679d99719017ae348665c5ddc668ecc1269e4e9699130
+
+### Summary
+用户验收反馈弹窗比例不随图片/视频自适应，实证根因为生产库 908161 条媒体的缩略图尺寸/比例元数据 100% NULL（等比公式全部 16:9 兜底）。修复采用加载后真实比例路径并发布。生产运行精确修订 f8946763e8ce。
+
+### Changed
+PlayerWindow 新增 loadedRatio（当前媒体经浏览器解码后的真实比例，id 切换重置）；ImageViewPane img onLoad 上报 naturalWidth/Height、VideoPane video onLoadedMetadata 上报 videoWidth/Height（>0 守卫）；高度公式比例优先级 loadedRatio → resolveAspect 兜底；heightOverride 用户锁定仍优先；直写 resize 与非模态机制不变。
+
+### Validation
+TDD 红→绿（4 例新用例：竖图收窄、视频转横、切项重置、override 锁定优先）；独立评审 Approved（四项定向风险：onLoad 直写冲突为一帧级自愈瞬变、位置 clamp 语义正常、video 重挂 loadedmetadata 可靠、回调引用稳定不引发 effect 重跑）；全量前端 250/253（3 失败为既有 Node 26 localStorage 环境问题）、build ✓、tsc 零新增；FNOS 构建+备份 quick_check=ok+旁路候选 200+切换；生产零重启、首页 200、API 401 正常。
+
+### Next
+用户人工验收真实比例自适应（图片/视频/竖长图）；阶段三打磨清单新增：极竖图（ratio<约0.4）宽度下限触发后高度超视口的收敛策略、拖动/缩放会话中媒体加载完成的一帧级跳变暂存合并；既有清单（fab 画中画、出场过渡、EXIF apiFetch 重构等）不变；Docker Hub 补推 f894676-amd64 与 latest。
+
+### Risks
+极竖图宽度下限（240px）触发后高度可超视口（底部出屏，头部可拖动、双击边缘恢复）——既有形状优先取舍被真实比例激活；若用户存在历史 heightOverride 持久化，比例自适应被锁定（双击边缘恢复）。
+
+### DIA
+已同步 release_notes.md（v1.3.1 热修 f894676 段：根因、修复、已知边界、备份与生产验证）；README、API、数据结构、registry 无新增影响。
+
+### HLG
+本记录经标准 append dry-run 与 apply 追加并重建派生索引，continuity=waiting（media-player-refactor）；过程台账存于 .superpowers/sdd/progress.md；无新增长期规则候选。
