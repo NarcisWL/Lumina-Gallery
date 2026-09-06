@@ -1783,3 +1783,35 @@ record-fingerprint: 4fff4755ae6124a1bda38eda2ddeb961e30e97a060507ddae18023414d19
 
 ### HLG
 通过标准 append dry-run 与 apply 追加最终发布记录并重建 handover-index；此前本地修正记录由本条 release 记录闭环。
+
+## 2026-09-06T18:36:47+08:00 · 独立媒体播放器 v1.3.0 已发布至 FNOS 生产
+
+type: release
+scope: ["Luvia-Gallery", "WebUI", "FNOS"]
+status: done
+tags: ["media-player", "refactor", "player", "fnos", "amd64", "production"]
+continuity: waiting
+continuity-key: media-player-refactor
+event-date: 2026-09-06
+record-fingerprint: 95d55c9c0a192ad3968fba0103a4ca93f9d66c5a35f1899d49f685d66c025539
+
+### Summary
+完成独立媒体播放器重构（阶段一二：核心架构与队列解耦）的提交、推送、linux/amd64 镜像构建与 FNOS 生产部署。生产服务运行精确修订 ea9a71e9de4b415d1557a34015a7ab2e055ef1fd。等待用户人工验收后决定阶段三（显示与交互打磨）、阶段四（视频转码）与文件级重命名/删除入口恢复的取舍。
+
+### Changed
+mediaId 移出 GalleryLocation、URL 序列化与 location key 哈希，旧 mediaId= 深链静默忽略回退浏览位置；新增 components/player/ 播放器层（队列状态机、PlayerProvider、MediaPlayer 壳、ImageViewPane、VideoPane、resolveVideoSource 转码唯一替换点）；任意视图以当前列表为队列打开播放器，导航位置变化自动收起播放器；删除 ImageViewer、死代码 ViewerControls 与文件级重命名/删除入口（发布说明如实标注暂停待恢复）；连带修复早前查看器跳转按钮失效根因（关闭走历史回退）随组件移除而消亡。
+
+### Validation
+每任务 TDD + 独立评审（5 任务全过），最终整分支评审发现 2 Critical（队列起点索引在音频穿插时错位=计划缺陷，已提取 buildPlayerQueue 修复并补 3 行为用例；文件级重命名/删除静默移除，已如实化文档）均修复并复验通过。全量前端 169/172（3 失败为本机 Node 26 缺 localStorage 的既有环境问题），Vite build 通过，tsc 零新增错误。FNOS 原生 docker build（旧构建器走 daemon 代理绕过 BuildKit 的 Docker Hub 认证超时）；数据库备份 quick_check=ok（908161 条）；旁路候选容器（数据副本+只读媒体+19980 端口）通过首页/资产/播放器产物特征/401 鉴权验证后切换；生产容器零重启，首页与资产 200、产物含 media-player/video-pane 特征且不含 Jump to Folder。
+
+### Next
+用户人工验收生产环境播放器行为；决策文件级重命名/删除入口恢复时机（阶段三 or 更早）；阶段三打磨（收藏心形实时翻转、控制栏自动隐藏、退出动画接通、z-index 层叠、EXIF apiFetch 重构等，清单在 .superpowers/sdd/progress.md）；阶段四视频转码独立立项（ffprobe 探测+按需 FFmpeg 转码+缓存治理）；Docker Hub 推送因 FNOS 无有效登录凭据被拒，待用户登录后补推 ea9a71e-amd64 与 latest。
+
+### Risks
+播放器队列为打开时快照：收藏心形在播放器内不实时翻转、队列条目被删除不收起播放器（如实记录于发布说明）；旧媒体深链（mediaId=）不再打开查看器，外部依赖该深链的场景会降级为浏览位置；Docker Hub 无本次镜像副本，异地恢复暂依赖 FNOS 本地镜像与 git 重建。
+
+### DIA
+已同步 release_notes.md（v1.3.0 含部署状态、备份与回滚证据；删除从未发布的 v1.2.9 小节，其修复对象已随组件移除）；计划文档入库 .agent/plans/2026-09-06-media-player-refactor.md；README、API、数据结构、registry 无新增影响。
+
+### HLG
+本记录经标准 append dry-run 与 apply 追加并重建派生索引；过程台账（任务级评审与 Minor 清单）存于 .superpowers/sdd/progress.md；无新增长期规则候选。
