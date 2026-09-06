@@ -1815,3 +1815,35 @@ mediaId 移出 GalleryLocation、URL 序列化与 location key 哈希，旧 medi
 
 ### HLG
 本记录经标准 append dry-run 与 apply 追加并重建派生索引；过程台账（任务级评审与 Minor 清单）存于 .superpowers/sdd/progress.md；无新增长期规则候选。
+
+## 2026-09-06T20:16:11+08:00 · 播放器弹窗化 v1.3.1 已发布至 FNOS 生产
+
+type: release
+scope: ["Luvia-Gallery", "WebUI", "FNOS"]
+status: done
+tags: ["media-player", "floating-window", "fnos", "amd64", "production"]
+continuity: waiting
+continuity-key: media-player-refactor
+event-date: 2026-09-06
+record-fingerprint: de02e7625efea884e8d7f1ed9619904f801ea96e63c96fa7adb9b2bc47e9fa53
+
+### Summary
+完成播放器弹窗化重构的提交、推送、FNOS 镜像构建与生产部署。生产运行精确修订 308fe12dcde0916fa78661a49deaaa6e634a6cc9。播放器从全屏遮罩模态改为非模态悬浮弹窗（可拖动、比例自适应、mini 小窗、FAB 圆钮、独占全屏），并修复视频信息面板失效与收藏快照不实时两项验收反馈。
+
+### Changed
+PlayerState 扩展 displayMode（window/mini/fab/fullscreen）与窗口偏好持久化（window-prefs.ts，localStorage 容错）；新增 PlayerWindow 非模态浮窗（pointer 拖动、媒体比例自适应、浮岛材质、AnimatePresence 动画）与 PlayerFullscreen 独占全屏（Fullscreen API + fullscreenchange 回窗）；MediaPlayer 改为形态调度器；收藏经 patchItem 实时回写队列；信息面板提升壳层（修复视频分支无面板）；全局键盘快捷键排除输入控件（非模态新暴露面）；EXIF effect 依赖改 currentItem?.id 防冗余请求。
+
+### Validation
+每任务 TDD + 独立评审（A+B 联评、C+D 联评+部署前验证均 Approved）；全量前端 224/227（3 失败为既有 Node 26 localStorage 环境问题）、Vite build 通过、tsc 零新增；FNOS 旧构建器构建镜像（BuildKit 认证超时的既知绕行）；数据库备份 quick_check=ok（908161 条）；旁路候选（数据副本+只读媒体+19981 端口）通过首页/资产/player-window 与 player-fab 产物特征验证后切换；生产容器零重启，首页/资产 200、API 401 鉴权正常。
+
+### Next
+用户人工验收浮窗交互（拖动、mini/FAB、独占全屏、浏览并行、真实浏览器 requestFullscreen 与 Esc 原生退出）；Docker Hub 补推 308fe12-amd64 与 latest（FNOS 无有效登录凭据）；阶段三打磨清单：收藏心形外播放器内 UI 同步、window→fullscreen 出场过渡、fab 视频画中画/keep-alive、极窄视口 clamp 收缩、usePaneLanguage 分层倒挂、EXIF apiFetch 重构、控制栏自动隐藏。
+
+### Risks
+fab 形态视频卸载停播为主控裁决接受的规格偏差（56px 圆钮无画面区域；window/mini 已满足持续播放；已记录发布说明）；旧媒体深链（mediaId=）降级为浏览位置；Docker Hub 无本次镜像副本。
+
+### DIA
+已同步 release_notes.md（v1.3.1 弹窗化与部署状态、已知取舍）；计划文档入库 .agent/plans/2026-09-06-player-window-refactor.md；README、API、数据结构、registry 无新增影响。
+
+### HLG
+本记录经标准 append dry-run 与 apply 追加并重建派生索引，continuity=waiting（media-player-refactor）；过程台账存于 .superpowers/sdd/progress.md；无新增长期规则候选。
