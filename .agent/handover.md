@@ -2099,3 +2099,33 @@ PDEC 与 registry 已在前序批准提交中同步；本次合并和分支清�
 
 ### HLG
 本记录使用标准 append dry-run 后 apply 追加并重建 handover-index；既有交接历史未改写。
+
+## 2026-09-07T03:08:08+08:00 · 按用户确认丢弃无价值分支与 Android worktree
+
+type: maintenance
+scope: ["Luvia-Gallery", "Git"]
+status: done
+tags: ["branch-cleanup", "discard", "worktree", "git"]
+continuity: none
+record-fingerprint: 0ac150c5cfa60c9eae6ab0b872b6c39a7fe6220ee76e6999b862ff7e3a549237
+
+### Summary
+已收到用户精确确认词 discard，并按此前列明范围完成四个无价值分支的清理。main 未被删除或切换。
+
+### Changed
+强制移除 /Users/promenar/Codex/Luvia-Gallery/.worktrees/codex-android-compose-rewrite，并丢弃其中 6 个未提交文件；删除本地 codex/android-compose-rewrite（原 b1e9b7a）与 codex/web-navigation-upgrade（原 69a95c9）；删除远端 origin/codex/android-compose-rewrite、origin/release（原 d872b71）与 origin/backup/legacy-v1-pre-refactor（原 51955c1）。
+
+### Validation
+git push origin --delete 返回成功；git fetch origin --prune 完成；当前 main 为 89b1d3e1e2b448c97ab0594bac08e1c633277489，工作树干净且跟踪 origin/main；git worktree list 仅剩主 worktree；git branch -a 仅剩 main 与 origin/main；目标远端 refs 查询为空。
+
+### Next
+无本次清理的后续动作。
+
+### Risks
+Android worktree 的 6 个未提交文件已按用户确认永久从工作区丢弃；已删除分支引用不再可通过本地或 origin 分支直接访问。main 现有提交与文件未改动。
+
+### DIA
+已同步本次 HLG 交接记录及其派生索引；registry、README、release_notes、架构和业务文档无影响。
+
+### HLG
+已按 append 规范执行 dry-run 与 apply，记录追加至 handover.md EOF，handover-index.md 由脚本重建；既有历史未改写。
